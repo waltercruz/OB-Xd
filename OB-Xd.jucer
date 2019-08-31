@@ -2,16 +2,17 @@
 
 <JUCERPROJECT id="mxW328" name="Obxd" projectType="audioplug" version="1.4.1"
               bundleIdentifier="com.Datsounds.Obxd" includeBinaryInAppConfig="1"
-              buildVST="1" buildVST3="0" buildAU="1" buildRTAS="0" buildAAX="0"
+              buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="0"
               pluginName="OB-Xd" pluginDesc="Emulation of famous OB-X, OB-Xa and OB-8 synths"
               pluginManufacturer="Datsounds" pluginManufacturerCode="Dats"
               pluginCode="Obxd" pluginChannelConfigs="{0, 2}" pluginIsSynth="1"
               pluginWantsMidiIn="1" pluginProducesMidiOut="0" pluginSilenceInIsSilenceOut="0"
               pluginEditorRequiresKeys="0" pluginAUExportPrefix="" pluginRTASCategory="2048"
-              aaxIdentifier="" pluginAAXCategory="" jucerVersion="5.4.3" companyName="2Dat"
+              aaxIdentifier="" pluginAAXCategory="" jucerVersion="5.4.4" companyName="2Dat"
               companyWebsite="http://obxd.wordpress.com" companyEmail="" buildAUv3="0"
-              pluginIsMidiEffectPlugin="0" pluginFormats="buildVST,buildAU"
-              pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
+              pluginIsMidiEffectPlugin="0" pluginFormats="buildAU,buildStandalone,buildVST,buildVST3"
+              pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              buildStandalone="1" enableIAA="0">
   <MAINGROUP id="NZ3n4V" name="Obxd">
     <GROUP id="{90740217-84AB-FD0D-FBC4-CA9EA2C68D5E}" name="Source">
       <GROUP id="{5F0B15D1-4D92-B2FF-5904-9CF4C3CE645F}" name="Images">
@@ -63,14 +64,12 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" vstFolder="modules/vstsdk3" extraCompilerFlags="-I../../modules/vstsdk3"
-               vst3Folder="modules/vstsdk3">
+    <XCODE_MAC targetFolder="Builds/MacOSX" vstFolder="modules/vstsdk3">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="Obxd" osxArchitecture="64BitUniversal"
-                       stripLocalSymbols="0" osxCompatibility="10.6 SDK" linkTimeOptimisation="0"/>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="Obxd" stripLocalSymbols="0"
+                       osxCompatibility="10.6 SDK" linkTimeOptimisation="0"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="Obxd"
-                       osxArchitecture="64BitUniversal" stripLocalSymbols="1" osxCompatibility="10.6 SDK"
-                       linkTimeOptimisation="0"/>
+                       stripLocalSymbols="1" osxCompatibility="10.6 SDK" linkTimeOptimisation="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_opengl" path="modules"/>
@@ -129,5 +128,6 @@
   <JUCEOPTIONS JUCE_QUICKTIME="disabled"/>
   <LIVE_SETTINGS>
     <WINDOWS/>
+    <OSX/>
   </LIVE_SETTINGS>
 </JUCERPROJECT>

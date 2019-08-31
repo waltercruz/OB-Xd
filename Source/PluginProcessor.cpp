@@ -491,7 +491,7 @@ const String ObxdAudioProcessor::getParameterName (int index)
 	case FREL:
 		return S("FilterRelease");
 	}
-	return String::empty;
+	return {};
 }
 
 const String ObxdAudioProcessor::getParameterText (int index)
@@ -755,7 +755,7 @@ void ObxdAudioProcessor::getStateInformation (MemoryBlock& destData)
 
 void ObxdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-	if (XmlElement* const xmlState = getXmlFromBinary(data,sizeInBytes))
+    if (std::unique_ptr<XmlElement> xmlState = getXmlFromBinary(data,sizeInBytes))
 	{
 		XmlElement* xprogs = xmlState->getFirstChildElement();
 		if (xprogs->hasTagName(S("programs")))
@@ -782,14 +782,12 @@ void ObxdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 		}
 
 		setCurrentProgram(xmlState->getIntAttribute(S("currentProgram"), 0));
-
-		delete xmlState;
 	}
 }
 
 void  ObxdAudioProcessor::setCurrentProgramStateInformation(const void* data,int sizeInBytes)
 {
-	if (XmlElement* const e = getXmlFromBinary(data, sizeInBytes))
+	if (std::unique_ptr<XmlElement> e = getXmlFromBinary(data, sizeInBytes))
 	{
 		programs.currentProgramPtr->setDefaultValues();
 
@@ -801,8 +799,6 @@ void  ObxdAudioProcessor::setCurrentProgramStateInformation(const void* data,int
 		programs.currentProgramPtr->name =  e->getStringAttribute(S("programName"), S("Default"));
 
 		setCurrentProgram(programs.currentProgram);
-
-		delete e;
 	}
 }
 
