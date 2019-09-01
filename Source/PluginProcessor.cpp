@@ -491,7 +491,7 @@ const String ObxdAudioProcessor::getParameterName (int index)
 	case FREL:
 		return S("FilterRelease");
 	}
-	return {};
+    return {};
 }
 
 const String ObxdAudioProcessor::getParameterText (int index)
@@ -769,6 +769,7 @@ void ObxdAudioProcessor::getCurrentProgramStateInformation(MemoryBlock& destData
     copyXmlToBinary(xmlState, destData);
 }
 
+
 void ObxdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
 	if (std::unique_ptr<XmlElement> xmlState = getXmlFromBinary(data,sizeInBytes))
@@ -801,6 +802,8 @@ void ObxdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 		}
 
 		setCurrentProgram(xmlState->getIntAttribute(S("currentProgram"), 0));
+
+		delete xmlState;
 	}
 }
 
@@ -821,8 +824,25 @@ void  ObxdAudioProcessor::setCurrentProgramStateInformation(const void* data,int
 		programs.currentProgramPtr->name =  e->getStringAttribute(S("programName"), S("Default"));
 
 		setCurrentProgram(programs.currentProgram);
+
+		delete e;
 	}
 }
+
+void ObxdAudioProcessor::getCurrentProgramStateInformation(MemoryBlock& destData)
+{
+	XmlElement xmlState = XmlElement("Datsounds");
+
+	for (int k = 0; k < PARAM_COUNT; ++k)
+	{
+		xmlState.setAttribute(String(k), programs.currentProgramPtr->values[k]);
+	}
+
+	xmlState.setAttribute(S("programName"), programs.currentProgramPtr->name);
+
+	copyXmlToBinary(xmlState, destData);
+}
+
 
 //==============================================================================
 bool ObxdAudioProcessor::loadFromFXBFile(const File& fxbFile)
@@ -949,7 +969,7 @@ void ObxdAudioProcessor::scanAndUpdateBanks()
 	DirectoryIterator it(getBanksFolder(), false, "*.fxb", File::findFiles);
 	while (it.next())
 	{
-        bankFiles.addUsingDefaultSort(it.getFile());
+		bankFiles.addUsingDefaultSort(it.getFile());
 	}
 }
 

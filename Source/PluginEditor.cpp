@@ -287,8 +287,14 @@ void ObxdAudioProcessorEditor::rebuildComponents()
 		envelopeDetuneKnob = addTinyKnob(1353,300,ownerFilter,ENVDER,"Env",0.2);
 
 		voiceSwitch = addNormalButtonList(124,338,17,ownerFilter,VOICE_COUNT,"VoiceCount",ImageCache::getFromMemory(BinaryData::voices_png,BinaryData::voices_pngSize));
-        for (int i=1; i <= 32; i++)
-		    voiceSwitch ->addChoise(String(i));
+        voiceSwitch ->addChoise("1");
+        voiceSwitch ->addChoise("2");
+        voiceSwitch ->addChoise("3");
+        voiceSwitch ->addChoise("4");
+        voiceSwitch ->addChoise("5");
+        voiceSwitch ->addChoise("6");
+        voiceSwitch ->addChoise("7");
+        voiceSwitch ->addChoise("8");
 		voiceSwitch ->setValue(ownerFilter->getParameter(VOICE_COUNT),dontSendNotification);
 
 		legatoSwitch = addNormalButtonList(25,338,65,ownerFilter,LEGATOMODE,"Legato",ImageCache::getFromMemory(BinaryData::legato_png,BinaryData::legato_pngSize));
@@ -394,8 +400,14 @@ void ObxdAudioProcessorEditor::rebuildComponents()
 		bendLfoRateKnob = addNormalKnobClassic(364,345,ownerFilter,BENDLFORATE,"ModRate",0.4);
 
 		voiceSwitch = addNormalButtonListClassic(172,321,38,ownerFilter,VOICE_COUNT,"VoiceCount",ImageCache::getFromFile(skinFolder.getChildFile("voices.png")));
-        for (int i=1; i <= 32; i++)
-            voiceSwitch->addChoise(String(i));
+        voiceSwitch ->addChoise("1");
+        voiceSwitch ->addChoise("2");
+        voiceSwitch ->addChoise("3");
+        voiceSwitch ->addChoise("4");
+        voiceSwitch ->addChoise("5");
+        voiceSwitch ->addChoise("6");
+        voiceSwitch ->addChoise("7");
+        voiceSwitch ->addChoise("8");
 		voiceSwitch ->setValue(ownerFilter->getParameter(VOICE_COUNT),dontSendNotification);
 
 		legatoSwitch = addNormalButtonListClassic(65,321,95,ownerFilter,LEGATOMODE,"Legato",ImageCache::getFromFile(skinFolder.getChildFile("legato.png")));
@@ -499,7 +511,7 @@ void ObxdAudioProcessorEditor::sliderValueChanged (Slider* c)
 		handleSParam(lfoAmt1Knob,LFO1AMT)
 		handleSParam(lfoAmt2Knob,LFO2AMT)
 
-		handleSParam(pan1Knob,PAN1)
+        handleSParam(pan1Knob,PAN1)
 		handleSParam(pan2Knob,PAN2)
 		handleSParam(pan3Knob,PAN3)
 		handleSParam(pan4Knob,PAN4)
@@ -659,8 +671,8 @@ void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
 
 		int bankStart = 1000;
 		{
-			const String currentBank = getFilter()->getCurrentBankFile().getFileName();
-
+            const String currentBank = getFilter()->getCurrentBankFile().getFileName();
+            
 			for (int i = 0; i < banks.size(); ++i)
 			{
 				const File bank = banks.getUnchecked(i);
