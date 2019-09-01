@@ -499,7 +499,7 @@ void ObxdAudioProcessorEditor::sliderValueChanged (Slider* c)
 		handleSParam(lfoAmt1Knob,LFO1AMT)
 		handleSParam(lfoAmt2Knob,LFO2AMT)
 
-		handleSParam(pan1Knob,PAN1)
+				handleSParam(pan1Knob,PAN1)
 		handleSParam(pan2Knob,PAN2)
 		handleSParam(pan3Knob,PAN3)
 		handleSParam(pan4Knob,PAN4)
@@ -645,7 +645,7 @@ void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
 			DirectoryIterator it(getFilter()->getSkinFolder(), false, "*", File::findDirectories);
 			while (it.next())
 			{
-				skins.addUsingDefaultSort(it.getFile());r
+				skins.addUsingDefaultSort(it.getFile());
 			}
 
 			for (int i = 0; i < skins.size(); ++i)
@@ -659,8 +659,8 @@ void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
 
 		int bankStart = 1000;
 		{
-			const String currentBank = getFilter()->getCurrentBankFile().getFileName();
-
+            const String currentBank = getFilter()->getCurrentBankFile().getFileName();
+            
 			for (int i = 0; i < banks.size(); ++i)
 			{
 				const File bank = banks.getUnchecked(i);
