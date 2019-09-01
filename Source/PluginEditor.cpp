@@ -287,14 +287,8 @@ void ObxdAudioProcessorEditor::rebuildComponents()
 		envelopeDetuneKnob = addTinyKnob(1353,300,ownerFilter,ENVDER,"Env",0.2);
 
 		voiceSwitch = addNormalButtonList(124,338,17,ownerFilter,VOICE_COUNT,"VoiceCount",ImageCache::getFromMemory(BinaryData::voices_png,BinaryData::voices_pngSize));
-        voiceSwitch ->addChoise("1");
-        voiceSwitch ->addChoise("2");
-        voiceSwitch ->addChoise("3");
-        voiceSwitch ->addChoise("4");
-        voiceSwitch ->addChoise("5");
-        voiceSwitch ->addChoise("6");
-        voiceSwitch ->addChoise("7");
-        voiceSwitch ->addChoise("8");
+        for (int i=1; i <= 32; i++)
+		    voiceSwitch ->addChoise(String(i));
 		voiceSwitch ->setValue(ownerFilter->getParameter(VOICE_COUNT),dontSendNotification);
 
 		legatoSwitch = addNormalButtonList(25,338,65,ownerFilter,LEGATOMODE,"Legato",ImageCache::getFromMemory(BinaryData::legato_png,BinaryData::legato_pngSize));
@@ -400,14 +394,8 @@ void ObxdAudioProcessorEditor::rebuildComponents()
 		bendLfoRateKnob = addNormalKnobClassic(364,345,ownerFilter,BENDLFORATE,"ModRate",0.4);
 
 		voiceSwitch = addNormalButtonListClassic(172,321,38,ownerFilter,VOICE_COUNT,"VoiceCount",ImageCache::getFromFile(skinFolder.getChildFile("voices.png")));
-        voiceSwitch ->addChoise("1");
-        voiceSwitch ->addChoise("2");
-        voiceSwitch ->addChoise("3");
-        voiceSwitch ->addChoise("4");
-        voiceSwitch ->addChoise("5");
-        voiceSwitch ->addChoise("6");
-        voiceSwitch ->addChoise("7");
-        voiceSwitch ->addChoise("8");
+        for (int i=1; i <= 32; i++)
+            voiceSwitch->addChoise(String(i));
 		voiceSwitch ->setValue(ownerFilter->getParameter(VOICE_COUNT),dontSendNotification);
 
 		legatoSwitch = addNormalButtonListClassic(65,321,95,ownerFilter,LEGATOMODE,"Legato",ImageCache::getFromFile(skinFolder.getChildFile("legato.png")));
