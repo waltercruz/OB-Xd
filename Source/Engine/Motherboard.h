@@ -48,9 +48,8 @@ public:
 	bool vibratoEnabled;
 
 	float Volume;
-	const static int MAX_VOICES = 32;
-    const static int MAX_PANNINGS = 8;
-	float pannings[MAX_PANNINGS];
+    const static int MAX_VOICES=8;
+    float pannings[MAX_VOICES];
 	ObxdVoice voices[MAX_VOICES];
 	bool uni;
 	bool Oversample;
@@ -80,7 +79,7 @@ public:
 	//	pannings = new float[MAX_VOICES];
 		totalvc = MAX_VOICES;
 		vq = VoiceQueue(MAX_VOICES,voices);
-		for(int i = 0 ; i < MAX_PANNINGS;++i)
+        for(int i = 0 ; i < MAX_VOICES;++i)
 		{
 			pannings[i]= 0.5;
 		}
@@ -363,12 +362,11 @@ public:
 				float x1 = processSynthVoice(voices[i],lfovalue,viblfo);
 				if(Oversample)
 				{
-					float x2 =  processSynthVoice(voices[i],lfovalue2,viblfo2);
-					vlo+=x2*(1-pannings[i % MAX_PANNINGS]);
-					vro+=x2*(pannings[i % MAX_PANNINGS]);
+                    float x2 =  processSynthVoice(voices[i],lfovalue2,viblfo2);                    vlo+=x2*(1-pannings[i]);
+                    vro+=x2*(pannings[i]);
 				}
-				vl+=x1*(1-pannings[i % MAX_PANNINGS]);
-				vr+=x1*(pannings[i % MAX_PANNINGS]);
+            vl+=x1*(1-pannings[i]);
+            vr+=x1*(pannings[i]);
 		}
 		if(Oversample)
 		{
