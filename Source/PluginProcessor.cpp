@@ -44,7 +44,7 @@ ObxdAudioProcessor::ObxdAudioProcessor()
 	options.processLock = &configLock;
 	config = new PropertiesFile(getDocumentFolder().getChildFile("Settings.xml"), options);
 
-	currentSkin = config->containsKey("skin") ? config->getValue("skin") : "discoDSP Grey";
+	currentSkin = config->containsKey("skin") ? config->getValue("skin") : "discoDSP Blue";
 	currentBank = "Init";
 
 	scanAndUpdateBanks();
@@ -752,10 +752,10 @@ void ObxdAudioProcessor::getStateInformation (MemoryBlock& destData)
 
 	copyXmlToBinary(xmlState,destData);
 }
-
+/*
 void ObxdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    if (std::unique_ptr<XmlElement> xmlState = getXmlFromBinary(data,sizeInBytes))
+	if (XmlElement* const xmlState = getXmlFromBinary(data,sizeInBytes))
 	{
 		XmlElement* xprogs = xmlState->getFirstChildElement();
 		if (xprogs->hasTagName(S("programs")))
@@ -787,7 +787,7 @@ void ObxdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 
 void  ObxdAudioProcessor::setCurrentProgramStateInformation(const void* data,int sizeInBytes)
 {
-	if (std::unique_ptr<XmlElement> e = getXmlFromBinary(data, sizeInBytes))
+	if (XmlElement* const e = getXmlFromBinary(data, sizeInBytes))
 	{
 		programs.currentProgramPtr->setDefaultValues();
 
@@ -801,7 +801,7 @@ void  ObxdAudioProcessor::setCurrentProgramStateInformation(const void* data,int
 		setCurrentProgram(programs.currentProgram);
 	}
 }
-
+*/
 void ObxdAudioProcessor::getCurrentProgramStateInformation(MemoryBlock& destData)
 {
 	XmlElement xmlState = XmlElement("Datsounds");
