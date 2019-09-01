@@ -645,7 +645,7 @@ void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
 			DirectoryIterator it(getFilter()->getSkinFolder(), false, "*", File::findDirectories);
 			while (it.next())
 			{
-				skins.add(it.getFile());
+				skins.addUsingDefaultSort(it.getFile());
 			}
 
 			for (int i = 0; i < skins.size(); ++i)
@@ -664,7 +664,7 @@ void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
 			for (int i = 0; i < banks.size(); ++i)
 			{
 				const File bank = banks.getUnchecked(i);
-				bankMenu.addItem(i + bankStart + 1, bank.getFileName(), true, bank.getFileName() == currentBank);
+				bankMenu.addItem(i + bankStart + 1, bank.getFileNameWithoutExtension(), true, bank.getFileName() == currentBank);
 			}
 
 			menu.addSubMenu("Banks", bankMenu);
