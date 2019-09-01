@@ -734,6 +734,7 @@ void ObxdAudioProcessor::getStateInformation (MemoryBlock& destData)
 	{
 		XmlElement* xpr = new XmlElement("program");
 		xpr->setAttribute(S("programName"), programs.programs[i].name);
+        xpr->setAttribute(S("voiceCount"), Motherboard::MAX_VOICES);
 
 		for (int k = 0; k < PARAM_COUNT; ++k)
 		{
@@ -753,9 +754,25 @@ void ObxdAudioProcessor::getStateInformation (MemoryBlock& destData)
 	copyXmlToBinary(xmlState,destData);
 }
 
+void ObxdAudioProcessor::getCurrentProgramStateInformation(MemoryBlock& destData)
+{
+    XmlElement xmlState = XmlElement("Datsounds");
+
+    for (int k = 0; k < PARAM_COUNT; ++k)
+    {
+        xmlState.setAttribute(String(k), programs.currentProgramPtr->values[k]);
+    }
+
+    xmlState.setAttribute(S("voiceCount"), Motherboard::MAX_VOICES);
+    xmlState.setAttribute(S("programName"), programs.currentProgramPtr->name);
+
+    copyXmlToBinary(xmlState, destData);
+}
+
+
 void ObxdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-	if (XmlElement* const xmlState = getXmlFromBinary(data,sizeInBytes))
+	if (std::unique_ptr<XmlElement> xmlState = getXmlFromBinary(data,sizeInBytes))
 	{
 		XmlElement* xprogs = xmlState->getFirstChildElement();
 		if (xprogs->hasTagName(S("programs")))
@@ -763,11 +780,14 @@ void ObxdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 			int i = 0;
 			forEachXmlChildElement(*xprogs, e)
 			{
+                bool newFormat = e->hasAttribute("voiceCount");
 				programs.programs[i].setDefaultValues();
 
 				for (int k = 0; k < PARAM_COUNT; ++k)
 				{
-					programs.programs[i].values[k] = e->getDoubleAttribute(String(k), programs.programs[i].values[k]);
+                    float value = float(e->getDoubleAttribute(String(k), programs.programs[i].values[k]));
+                    if (!newFormat && k == VOICE_COUNT) value *= 0.25f;
+					programs.programs[i].values[k] = value;
 				}
 
 				programs.programs[i].name = e->getStringAttribute(S("programName"), S("Default"));
@@ -789,13 +809,16 @@ void ObxdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 
 void  ObxdAudioProcessor::setCurrentProgramStateInformation(const void* data,int sizeInBytes)
 {
-	if (XmlElement* const e = getXmlFromBinary(data, sizeInBytes))
+	if (std::unique_ptr<XmlElement> e = getXmlFromBinary(data, sizeInBytes))
 	{
 		programs.currentProgramPtr->setDefaultValues();
 
+        bool newFormat = e->hasAttribute("voiceCount");
 		for (int k = 0; k < PARAM_COUNT; ++k)
 		{
-			programs.currentProgramPtr->values[k] = e->getDoubleAttribute(String(k), programs.currentProgramPtr->values[k]);
+            float value = float(e->getDoubleAttribute(String(k), programs.currentProgramPtr->values[k]));
+            if (!newFormat && k == VOICE_COUNT) value *= 0.25f;
+			programs.currentProgramPtr->values[k] = value;
 		}
 
 		programs.currentProgramPtr->name =  e->getStringAttribute(S("programName"), S("Default"));
@@ -819,6 +842,7 @@ void ObxdAudioProcessor::getCurrentProgramStateInformation(MemoryBlock& destData
 
 	copyXmlToBinary(xmlState, destData);
 }
+
 
 //==============================================================================
 bool ObxdAudioProcessor::loadFromFXBFile(const File& fxbFile)
