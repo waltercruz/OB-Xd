@@ -941,7 +941,7 @@ void ObxdAudioProcessor::scanAndUpdateBanks()
 	DirectoryIterator it(getBanksFolder(), false, "*.fxb", File::findFiles);
 	while (it.next())
 	{
-		bankFiles.add(it.getFile());
+        bankFiles.addUsingDefaultSort(it.getFile());
 	}
 }
 
