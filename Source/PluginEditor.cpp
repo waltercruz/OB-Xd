@@ -499,7 +499,7 @@ void ObxdAudioProcessorEditor::sliderValueChanged (Slider* c)
 		handleSParam(lfoAmt1Knob,LFO1AMT)
 		handleSParam(lfoAmt2Knob,LFO2AMT)
 
-				handleSParam(pan1Knob,PAN1)
+        handleSParam(pan1Knob,PAN1)
 		handleSParam(pan2Knob,PAN2)
 		handleSParam(pan3Knob,PAN3)
 		handleSParam(pan4Knob,PAN4)
