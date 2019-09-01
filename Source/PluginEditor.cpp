@@ -645,7 +645,7 @@ void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
 			DirectoryIterator it(getFilter()->getSkinFolder(), false, "*", File::findDirectories);
 			while (it.next())
 			{
-				skins.addUsingDefaultSort(it.getFile());
+				skins.addUsingDefaultSort(it.getFile());r
 			}
 
 			for (int i = 0; i < skins.size(); ++i)
