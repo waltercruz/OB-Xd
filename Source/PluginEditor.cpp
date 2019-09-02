@@ -464,7 +464,7 @@ void ObxdAudioProcessorEditor::sliderValueChanged (Slider* c)
 	//		flt->beginParameterChangeGesture();
 #define sp(T) {flt->setParameterNotifyingHost(T,c->getValue());}
 #define handleSParam(K,T)  if (c == K) {sp(T)} else
-	handleSParam(cutoffKnob,CUTOFF)
+		handleSParam(cutoffKnob,CUTOFF)
 		handleSParam(resonanceKnob,RESONANCE)
 		handleSParam(volumeKnob,VOLUME)
 		handleSParam(osc1PitchKnob,OSC1P)
@@ -664,7 +664,7 @@ void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
 			for (int i = 0; i < banks.size(); ++i)
 			{
 				const File bank = banks.getUnchecked(i);
-				bankMenu.addItem(i + bankStart + 1, bank.getFileName(), true, bank.getFileName() == currentBank);
+				bankMenu.addItem(i + bankStart + 1, bank.getFileNameWithoutExtension(), true, bank.getFileName() == currentBank);
 			}
 
 			menu.addSubMenu("Banks", bankMenu);
