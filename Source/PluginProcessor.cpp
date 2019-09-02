@@ -11,6 +11,9 @@ It contains the basic startup code for a Juce application.
 #include "PluginEditor.h"
 #include "Engine/Params.h"
 
+// Compare JUCE_VERSION against this to check for JUCE 5.4.3 and earlier
+#define JUCE_543 328707
+
 //only sse2 version on windows
 #ifdef _WINDOWS
 #define __SSE2__
@@ -724,7 +727,7 @@ AudioProcessorEditor* ObxdAudioProcessor::createEditor()
 }
 
 //==============================================================================
-void ObxdAudioProcessor::getStateInformation (MemoryBlock& destData)
+void ObxdAudioProcessor::getStateInformation(MemoryBlock& destData)
 {
 	XmlElement xmlState = XmlElement("Datsounds");
 	xmlState.setAttribute(S("currentProgram"), programs.currentProgram);
@@ -734,6 +737,7 @@ void ObxdAudioProcessor::getStateInformation (MemoryBlock& destData)
 	{
 		XmlElement* xpr = new XmlElement("program");
 		xpr->setAttribute(S("programName"), programs.programs[i].name);
+		xpr->setAttribute(S("voiceCount"), Motherboard::MAX_VOICES);
 
 		for (int k = 0; k < PARAM_COUNT; ++k)
 		{
@@ -750,60 +754,7 @@ void ObxdAudioProcessor::getStateInformation (MemoryBlock& destData)
 		xmlState.setAttribute(String(i), bindings.controllers[i]);
 	}
 
-	copyXmlToBinary(xmlState,destData);
-}
-
-void ObxdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
-{
-	if (XmlElement* const xmlState = getXmlFromBinary(data,sizeInBytes))
-	{
-		XmlElement* xprogs = xmlState->getFirstChildElement();
-		if (xprogs->hasTagName(S("programs")))
-		{
-			int i = 0;
-			forEachXmlChildElement(*xprogs, e)
-			{
-				programs.programs[i].setDefaultValues();
-
-				for (int k = 0; k < PARAM_COUNT; ++k)
-				{
-					programs.programs[i].values[k] = e->getDoubleAttribute(String(k), programs.programs[i].values[k]);
-				}
-
-				programs.programs[i].name = e->getStringAttribute(S("programName"), S("Default"));
-
-				++i;
-			}
-		}
-
-		for (int i = 0; i < 255; ++i)
-		{
-			bindings.controllers[i] = xmlState->getIntAttribute(String(i), 0);
-		}
-
-		setCurrentProgram(xmlState->getIntAttribute(S("currentProgram"), 0));
-
-		delete xmlState;
-	}
-}
-
-void  ObxdAudioProcessor::setCurrentProgramStateInformation(const void* data,int sizeInBytes)
-{
-	if (XmlElement* const e = getXmlFromBinary(data, sizeInBytes))
-	{
-		programs.currentProgramPtr->setDefaultValues();
-
-		for (int k = 0; k < PARAM_COUNT; ++k)
-		{
-			programs.currentProgramPtr->values[k] = e->getDoubleAttribute(String(k), programs.currentProgramPtr->values[k]);
-		}
-
-		programs.currentProgramPtr->name =  e->getStringAttribute(S("programName"), S("Default"));
-
-		setCurrentProgram(programs.currentProgram);
-
-		delete e;
-	}
+	copyXmlToBinary(xmlState, destData);
 }
 
 void ObxdAudioProcessor::getCurrentProgramStateInformation(MemoryBlock& destData)
@@ -815,9 +766,83 @@ void ObxdAudioProcessor::getCurrentProgramStateInformation(MemoryBlock& destData
 		xmlState.setAttribute(String(k), programs.currentProgramPtr->values[k]);
 	}
 
+	xmlState.setAttribute(S("voiceCount"), Motherboard::MAX_VOICES);
 	xmlState.setAttribute(S("programName"), programs.currentProgramPtr->name);
 
 	copyXmlToBinary(xmlState, destData);
+}
+
+void ObxdAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
+{
+#if JUCE_VERSION <= JUCE_543
+	XmlElement * const xmlState = getXmlFromBinary(data, sizeInBytes);
+#else
+	std::unique_ptr<XmlElement> xmlState = getXmlFromBinary(data, sizeInBytes);
+#endif
+	if (xmlState)
+	{
+		XmlElement* xprogs = xmlState->getFirstChildElement();
+		if (xprogs->hasTagName(S("programs")))
+		{
+			int i = 0;
+			forEachXmlChildElement(*xprogs, e)
+			{
+				bool newFormat = e->hasAttribute("voiceCount");
+				programs.programs[i].setDefaultValues();
+
+				for (int k = 0; k < PARAM_COUNT; ++k)
+				{
+					float value = float(e->getDoubleAttribute(String(k), programs.programs[i].values[k]));
+					if (!newFormat && k == VOICE_COUNT) value *= 0.25f;
+					programs.programs[i].values[k] = value;
+				}
+
+				programs.programs[i].name = e->getStringAttribute(S("programName"), S("Default"));
+
+				++i;
+				}
+			}
+
+		for (int i = 0; i < 255; ++i)
+		{
+			bindings.controllers[i] = xmlState->getIntAttribute(String(i), 0);
+		}
+
+		setCurrentProgram(xmlState->getIntAttribute(S("currentProgram"), 0));
+
+#if JUCE_VERSION <= JUCE_543
+		delete xmlState;
+#endif
+		}
+	}
+
+void  ObxdAudioProcessor::setCurrentProgramStateInformation(const void* data, int sizeInBytes)
+{
+#if JUCE_VERSION <= JUCE_543
+	XmlElement * const e = getXmlFromBinary(data, sizeInBytes);
+#else
+	std::unique_ptr<XmlElement> e = getXmlFromBinary(data, sizeInBytes);
+#endif
+	if (e)
+	{
+		programs.currentProgramPtr->setDefaultValues();
+
+		bool newFormat = e->hasAttribute("voiceCount");
+		for (int k = 0; k < PARAM_COUNT; ++k)
+		{
+			float value = float(e->getDoubleAttribute(String(k), programs.currentProgramPtr->values[k]));
+			if (!newFormat && k == VOICE_COUNT) value *= 0.25f;
+			programs.currentProgramPtr->values[k] = value;
+		}
+
+		programs.currentProgramPtr->name = e->getStringAttribute(S("programName"), S("Default"));
+
+		setCurrentProgram(programs.currentProgram);
+
+#if JUCE_VERSION <= JUCE_543
+		delete e;
+#endif
+	}
 }
 
 //==============================================================================
