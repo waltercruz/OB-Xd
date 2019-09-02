@@ -65,8 +65,7 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" bigIcon="nnY63W" smallIcon="nnY63W"
-               vst3Folder="modules/vstsdk3">
+    <XCODE_MAC targetFolder="Builds/MacOSX" bigIcon="nnY63W" smallIcon="nnY63W">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="Obxd" stripLocalSymbols="0"
                        osxCompatibility="10.6 SDK" linkTimeOptimisation="0"/>
