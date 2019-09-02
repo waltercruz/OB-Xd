@@ -636,6 +636,7 @@ void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
 		PopupMenu menu;
 		PopupMenu skinMenu;
 		PopupMenu bankMenu;
+		PopupMenu progMenu;
 
 		Array<File> skins;
 		const Array<File>& banks = getFilter()->getBankFiles();
@@ -670,6 +671,16 @@ void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
 			menu.addSubMenu("Banks", bankMenu);
 		}
 
+		int progStart = 2000;
+		{
+			for (int i = 0; i < processor.getNumPrograms(); ++i)
+			{
+				progMenu.addItem(i + progStart + 1, processor.getProgramName(i), true, i == processor.getCurrentProgram());
+			}
+
+			menu.addSubMenu("Programs", progMenu);
+		}
+
 		const Point<int> pos = e.getMouseDownScreenPosition();
 
 		int result = menu.showAt(Rectangle<int>(pos.getX(), pos.getY(), 1, 1));
@@ -690,6 +701,12 @@ void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
 
 			const File bankFile = banks.getUnchecked(result);
 			getFilter()->loadFromFXBFile(bankFile);
+		}
+		else if (result >= (progStart + 1) && result <= (progStart + processor.getNumPrograms()))
+		{
+			result -= 1;
+			result -= progStart;
+			processor.setCurrentProgram(result);
 		}
 	}
 }
