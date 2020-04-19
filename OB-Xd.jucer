@@ -18,8 +18,7 @@
       <GROUP id="{5F0B15D1-4D92-B2FF-5904-9CF4C3CE645F}" name="Images">
         <FILE id="nnY63W" name="appicon.png" compile="0" resource="1" file="Source/Images/appicon.png"/>
         <FILE id="IV8Ubu" name="button.png" compile="0" resource="1" file="Source/Images/button.png"/>
-        <FILE id="gUrdhJ" name="knoblsd.png" compile="0" resource="1" file="Source/Images/knoblsd.png"/>
-        <FILE id="FzhdQQ" name="knobssd.png" compile="0" resource="1" file="Source/Images/knobssd.png"/>
+        <FILE id="eMxHLl" name="knob.png" compile="0" resource="1" file="Source/Images/knob.png"/>
         <FILE id="syMyon" name="legato.png" compile="0" resource="1" file="Source/Images/legato.png"/>
         <FILE id="kwaOoZ" name="main.png" compile="0" resource="1" file="Source/Images/main.png"/>
         <FILE id="UHyt7V" name="voices.png" compile="0" resource="1" file="Source/Images/voices.png"/>
