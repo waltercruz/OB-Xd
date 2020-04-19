@@ -23,38 +23,73 @@
  */
 #pragma once
 #include "../Source/Engine/SynthEngine.h"
-class ButtonList  : public ComboBox{
-private :
-	int count;
-	Image kni;
-	int w2,h2;
+
+class ButtonList  : public ComboBox
+{
 public:
-	ButtonList(Image k,int fh) :ComboBox("cb")
+	ButtonList (Image k, int fh) : ComboBox("cb")
 	{
 		kni = k;
 		count = 0;
-		h2 =fh;
+		h2 = fh;
 		w2 = k.getWidth();
 	}
 	//int addItem
-	void addChoise(String name)
+
+// Source: https://git.iem.at/audioplugins/IEMPluginSuite/-/blob/master/resources/customComponents/ReverseSlider.h
+public:
+    class ButtonListAttachment  : public juce::AudioProcessorValueTreeState::ComboBoxAttachment
+    {
+    public:
+        ButtonListAttachment (juce::AudioProcessorValueTreeState& stateToControl,
+                              const juce::String& parameterID,
+                              ButtonList& buttonListToControl) : AudioProcessorValueTreeState::ComboBoxAttachment (stateToControl, parameterID, buttonListToControl)
+        {
+            buttonListToControl.setParameter (stateToControl.getParameter (parameterID));
+        }
+
+        ButtonListAttachment (juce::AudioProcessorValueTreeState& stateToControl,
+                              const juce::String& parameterID,
+                              ComboBox& buttonListToControl) : AudioProcessorValueTreeState::ComboBoxAttachment (stateToControl, parameterID, buttonListToControl)
+        {
+        }
+
+        virtual ~ButtonListAttachment() = default;
+    };
+
+    void setParameter (const AudioProcessorParameter* p)
+    {
+        if (parameter == p)
+            return;
+
+        parameter = p;
+        repaint();
+    }
+    
+	void addChoice (String name)
 	{
-		addItem(name,++count);
+		addItem (name, ++count);
 	}
+    
 	float getValue()
 	{
-		return ((getSelectedId()-1)/ (float)(count-1));
+		return ((getSelectedId() - 1) / (float) (count - 1));
 	}
-	void setValue(float val,NotificationType notify)
+    
+	void setValue (float val, NotificationType notify)
 	{
-		setSelectedId((int)(val*(count -1) + 1),notify);
+		setSelectedId ((int) (val * (count - 1) + 1), notify);
 	}
-	void paintOverChildren(Graphics& g)
+    
+    void paintOverChildren (Graphics& g) override
 	{
-		int ofs = getSelectedId()-1;
-				g.drawImage(kni, 0, 0, getWidth(), getHeight(),
-					0, h2*ofs, w2, h2);
+		int ofs = getSelectedId() - 1;
+        g.drawImage(kni, 0, 0, getWidth(), getHeight(), 0, h2 * ofs, w2, h2);
 	}
 
-
+private:
+    int count;
+    Image kni;
+    int w2, h2;
+    const AudioProcessorParameter* parameter {nullptr};
 };

@@ -22,45 +22,44 @@
 //==============================================================================
 /**
 */
-class ObxdAudioProcessorEditor :
-	public AudioProcessorEditor,
-	// public AudioProcessorListener,
-	public ChangeListener,
-	public Slider::Listener,
-	public Button::Listener,
-	public ComboBox::Listener
+class ObxdAudioProcessorEditor  : public AudioProcessorEditor,
+//                                  public AudioProcessorListener,
+	                              public ChangeListener//,
+//                                  public Slider::Listener,
+//                                  public Button::Listener,
+//                                  public ComboBox::Listener
 {
 public:
-    ObxdAudioProcessorEditor(ObxdAudioProcessor* ownerFilter);
+    ObxdAudioProcessorEditor(ObxdAudioProcessor& ownerFilter);
     ~ObxdAudioProcessorEditor();
 
-	void mouseUp(const MouseEvent& e);
-	void paint(Graphics& g);
+	void mouseUp (const MouseEvent& e) override;
+	void paint (Graphics& g) override;
 
 	//==============================================================================
-	void changeListenerCallback (ChangeBroadcaster* source);
+	void changeListenerCallback (ChangeBroadcaster* source) override;
 
 private:
-	Knob* addNormalKnob(int x , int y ,ObxdAudioProcessor* filter, int parameter,String name,float defval);
-	Knob* addTinyKnob(int x , int y ,ObxdAudioProcessor* filter, int parameter,String name,float defval);
-	void placeLabel(int x , int y,String text);
-	TooglableButton* addNormalTooglableButton(int x , int y , ObxdAudioProcessor* filter,int parameter,String name);
-	TooglableButton* addTinyTooglableButton(int x , int y , ObxdAudioProcessor* filter,int parameter,String name);
+	Knob* addNormalKnob (int x, int y, ObxdAudioProcessor& filter, int parameter, String name, float defval);
+	Knob* addTinyKnob (int x, int y, ObxdAudioProcessor& filter, int parameter, String name, float defval);
+	void placeLabel (int x, int y, String text);
+	TooglableButton* addNormalTooglableButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name);
+	TooglableButton* addTinyTooglableButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name);
 
-	ButtonList* addNormalButtonList(int x , int y ,int width, ObxdAudioProcessor* filter,int parameter,String name,Image img);
-    void sliderValueChanged (Slider*);
-	void buttonClicked (Button *);
-    void comboBoxChanged(ComboBox*);
+	ButtonList* addNormalButtonList(int x, int y, int width, ObxdAudioProcessor& filter, int parameter, String name, Image img);
+//    void sliderValueChanged (Slider*) override;
+//    void buttonClicked (Button*) override;
+//    void comboBoxChanged (ComboBox*) override;
 
-    Knob* addNormalKnobClassic(int x , int y ,ObxdAudioProcessor* filter, int parameter,String name,float defval);
-    Knob* addTinyKnobClassic(int x , int y ,ObxdAudioProcessor* filter, int parameter,String name,float defval);
-    TooglableButton* addNormalTooglableButtonClassic(int x , int y , ObxdAudioProcessor* filter,int parameter,String name);
-	ButtonList* addNormalButtonListClassic(int x , int y ,int width, ObxdAudioProcessor* filter,int parameter,String name,Image img);
+    Knob* addNormalKnobClassic (int x, int y, ObxdAudioProcessor& filter, int parameter, String name, float defval);
+    Knob* addTinyKnobClassic (int x, int y, ObxdAudioProcessor& filter, int parameter, String name, float defval);
+    TooglableButton* addNormalTooglableButtonClassic (int x, int y, ObxdAudioProcessor& filter, int parameter, String name);
+	ButtonList* addNormalButtonListClassic (int x, int y, int width, ObxdAudioProcessor& filter, int parameter, String name, Image img);
 
-	void rebuildComponents();
+	void rebuildComponents (ObxdAudioProcessor&);
 
 	//==============================================================================
-	ObxdAudioProcessor* getFilter() noexcept    { return (ObxdAudioProcessor*)getAudioProcessor();}
+    ObxdAudioProcessor& processor;
 
 	//==============================================================================
 	Knob* cutoffKnob,*resonanceKnob,*osc1PitchKnob,*osc2PitchKnob,*osc2DetuneKnob,*volumeKnob,
@@ -83,6 +82,11 @@ private:
 	ButtonList *voiceSwitch,*legatoSwitch;
 
 	File skinFolder;
+    
+    //==============================================================================
+    OwnedArray<Knob::KnobAttachment>              knobAttachments;
+    OwnedArray<TooglableButton::ToggleAttachment> toggleAttachments;
+    OwnedArray<ButtonList::ButtonListAttachment>  buttonListAttachments;
 };
 
 #endif  // PLUGINEDITOR_H_INCLUDED
