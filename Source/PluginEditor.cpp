@@ -50,7 +50,7 @@ ButtonList* ObxdAudioProcessorEditor::addNormalButtonList (int x, int y, int wid
 
 Knob* ObxdAudioProcessorEditor::addNormalKnob (int x, int y, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
 {
-	Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knoblsd_png, BinaryData::knoblsd_pngSize), 48);
+	Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knob_png, BinaryData::knob_pngSize), 48);
 	//Label* knobl = new Label();
 	knob->setSliderStyle (Slider::RotaryVerticalDrag);
 	knob->setTextBoxStyle (knob->NoTextBox, true, 0, 0);
@@ -75,7 +75,7 @@ Knob* ObxdAudioProcessorEditor::addNormalKnob (int x, int y, ObxdAudioProcessor&
 
 Knob* ObxdAudioProcessorEditor::addNormalKnobClassic (int x, int y, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
 {
-    Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knoblsd_png, BinaryData::knoblsd_pngSize), 48);
+    Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knob_png, BinaryData::knob_pngSize), 48);
     //Label* knobl = new Label();
     knob->setSliderStyle (Slider::RotaryVerticalDrag);
     knob->setTextBoxStyle (knob->NoTextBox, true, 0, 0);
@@ -101,7 +101,7 @@ Knob* ObxdAudioProcessorEditor::addNormalKnobClassic (int x, int y, ObxdAudioPro
 Knob* ObxdAudioProcessorEditor::addTinyKnob (int x, int y, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
 {
 	//Knob* knob = new Knob(ImageCache::getFromMemory(BinaryData::knobssd_png,BinaryData::knobssd_pngSize),42);
-    Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knoblsd_png, BinaryData::knoblsd_pngSize), 48);
+    Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knob_png, BinaryData::knob_pngSize), 48);
 	//Label* knobl = new Label();
 	knob->setSliderStyle (Slider::RotaryVerticalDrag);
 	knob->setTextBoxStyle (knob->NoTextBox, true, 0, 0);
@@ -172,7 +172,7 @@ ButtonList* ObxdAudioProcessorEditor::addNormalButtonListClassic (int x, int y, 
 
 Knob* ObxdAudioProcessorEditor::addTinyKnobClassic (int x, int y, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
 {
-    Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knoblsd_png, BinaryData::knoblsd_pngSize), 48);
+    Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knob_png, BinaryData::knob_pngSize), 48);
     //Label* knobl = new Label();
     knob->setSliderStyle (Slider::RotaryVerticalDrag);
     knob->setTextBoxStyle (knob->NoTextBox, true, 0, 0);
