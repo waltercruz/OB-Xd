@@ -73,31 +73,6 @@ Knob* ObxdAudioProcessorEditor::addNormalKnob (int x, int y, ObxdAudioProcessor&
 	return knob;
 }
 
-Knob* ObxdAudioProcessorEditor::addNormalKnobClassic (int x, int y, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
-{
-    Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knob_png, BinaryData::knob_pngSize), 48);
-    //Label* knobl = new Label();
-    knob->setSliderStyle (Slider::RotaryVerticalDrag);
-    knob->setTextBoxStyle (knob->NoTextBox, true, 0, 0);
-    knob->setRange (0, 1);
-    addAndMakeVisible (knob);
-    //addAndMakeVisible(knobl);
-    knob->setBounds (x+2, y, 42, 42);
-//    knob->setValue(filter.getParameter(parameter),dontSendNotification);
-    //knobl->setJustificationType(Justification::centred);
-    //knobl->setInterceptsMouseClicks(false,true);
-    //knobl->setBounds(x-10,y+40,60,10);
-    //knobl->setText(name,dontSendNotification);
-    knob->setTextBoxIsEditable (false);
-    knob->setDoubleClickReturnValue (true, defval);
-//    knob->addListener (this);
-    knobAttachments.add (new Knob::KnobAttachment (filter.getPluginState(),
-                                                   filter.getEngineParameterId (parameter),
-                                                   *knob));
-    
-    return knob;
-}
-
 Knob* ObxdAudioProcessorEditor::addTinyKnob (int x, int y, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
 {
 	//Knob* knob = new Knob(ImageCache::getFromMemory(BinaryData::knobssd_png,BinaryData::knobssd_pngSize),42);
@@ -140,61 +115,6 @@ TooglableButton* ObxdAudioProcessorEditor::addNormalTooglableButton (int x, int 
 	return button;
 }
 
-TooglableButton* ObxdAudioProcessorEditor::addTinyTooglableButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name)
-{
-	TooglableButton* button = new TooglableButton (ImageCache::getFromMemory (BinaryData::button_png, BinaryData::button_pngSize));
-	//	button->setButtonStyle(DrawableButton::ButtonStyle::ImageAboveTextLabel);
-	addAndMakeVisible (button);
-	button->setBounds (x, y, 20, 20);
-	button->setButtonText (name);
-//    button->setValue(filter.getParameter(parameter),0);
-//    button->addListener(this);
-    toggleAttachments.add (new TooglableButton::ToggleAttachment (filter.getPluginState(),
-                                                                  filter.getEngineParameterId (parameter),
-                                                                  *button));
-    
-	return button;
-}
-
-ButtonList* ObxdAudioProcessorEditor::addNormalButtonListClassic (int x, int y, int width, ObxdAudioProcessor& filter, int parameter, String /*name*/, Image img)
-{
-    ButtonList *bl = new ButtonList (img, 32);
-    bl->setBounds (x, y, width, 32);
-    //bl->setValue(filter->getParameter(parameter),dontSendNotification);
-    addAndMakeVisible (bl);
-//    bl->addListener (this);
-    buttonListAttachments.add (new ButtonList::ButtonListAttachment (filter.getPluginState(),
-                                                                     filter.getEngineParameterId (parameter),
-                                                                     *bl));
-    
-    return bl;
-}
-
-Knob* ObxdAudioProcessorEditor::addTinyKnobClassic (int x, int y, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
-{
-    Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knob_png, BinaryData::knob_pngSize), 48);
-    //Label* knobl = new Label();
-    knob->setSliderStyle (Slider::RotaryVerticalDrag);
-    knob->setTextBoxStyle (knob->NoTextBox, true, 0, 0);
-    knob->setRange (0, 1);
-    addAndMakeVisible (knob);
-    //addAndMakeVisible(knobl);
-    knob->setBounds (x+3, y+3, 36, 36);
-//    knob->setValue(filter.getParameter(parameter),dontSendNotification);
-    //knobl->setJustificationType(Justification::centred);
-    //knobl->setInterceptsMouseClicks(false,true);
-    //knobl->setBounds(x-10,y+25,50,10);
-    //knobl->setText(name,dontSendNotification);
-    knob->setTextBoxIsEditable (false);
-    knob->setDoubleClickReturnValue (true, defval);
-//    knob->addListener (this);
-    knobAttachments.add (new Knob::KnobAttachment (filter.getPluginState(),
-                                                   filter.getEngineParameterId (parameter),
-                                                   *knob));
-    
-    return knob;
-}
-
 TooglableButton* ObxdAudioProcessorEditor::addNormalTooglableButtonClassic (int x, int y, ObxdAudioProcessor& filter, int parameter, String name)
 {
     TooglableButton* button = new TooglableButton (ImageCache::getFromFile (skinFolder.getChildFile ("button.png")));
@@ -214,15 +134,11 @@ TooglableButton* ObxdAudioProcessorEditor::addNormalTooglableButtonClassic (int 
 void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilter)
 {
 	skinFolder = ownerFilter.getCurrentSkinFolder();
-	bool useClassicSkin = skinFolder.getChildFile ("legato.png").existsAsFile();
+	//bool useClassicSkin = skinFolder.getChildFile ("legato.png").existsAsFile();
 
 	ownerFilter.removeChangeListener (this);
 
-    deleteAllChildren();  // WATCH OUT!
-
-	if (! useClassicSkin)
-	{
-		// This is where our plugin's editor size is set.
+    // deleteAllChildren();  // WATCH OUT!
 
 		setSize (1440, 450);
 		cutoffKnob = addNormalKnob (893, 77, ownerFilter, CUTOFF, "Cutoff", 0.4);
@@ -329,115 +245,6 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
 		legatoSwitch->addChoice ("Keep Filter Envelope");
 		legatoSwitch->addChoice ("Keep Amplitude Envelope");
 		legatoSwitch->addChoice ("Retrig");
-	}
-	else
-	{
-		// This is where our plugin's editor size is set.
-
-		setSize (1087, 442);
-		cutoffKnob = addNormalKnobClassic (577, 40, ownerFilter, CUTOFF, "Cutoff", 0.4);
-		resonanceKnob = addNormalKnobClassic (638, 40, ownerFilter, RESONANCE, "Resonance", 0);
-		filterEnvelopeAmtKnob = addNormalKnobClassic (699, 40, ownerFilter, ENVELOPE_AMT, "Envelope", 0);
-		multimodeKnob = addTinyKnobClassic (643, 106, ownerFilter, MULTIMODE, "Multimode", 0.5);
-
-		volumeKnob = addNormalKnobClassic (53, 120, ownerFilter, VOLUME, "Volume", 0.4);
-		portamentoKnob = addNormalKnobClassic (175, 241, ownerFilter, PORTAMENTO, "Portamento", 0);
-		osc1PitchKnob = addNormalKnobClassic (271, 40, ownerFilter, OSC1P, "Osc1Pitch", 0);
-		pulseWidthKnob = addNormalKnobClassic (334, 40, ownerFilter, PW, "PW", 0);
-		osc2PitchKnob = addNormalKnobClassic (397, 40, ownerFilter, OSC2P, "Osc2Pitch", 0);
-
-		osc1MixKnob = addNormalKnobClassic (490, 40, ownerFilter, OSC1MIX, "Osc1", 1);
-		osc2MixKnob = addNormalKnobClassic (490, 132, ownerFilter, OSC2MIX, "Osc2", 1);
-		noiseMixKnob = addNormalKnobClassic (490, 224, ownerFilter, NOISEMIX, "Noise", 0);
-
-		xmodKnob = addNormalKnobClassic (334, 168, ownerFilter, XMOD, "Xmod", 0);
-		osc2DetuneKnob = addNormalKnobClassic (334, 104, ownerFilter, OSC2_DET, "Detune", 0);
-
-		envPitchModKnob = addNormalKnobClassic (376, 232, ownerFilter, ENVPITCH, "PEnv", 0);
-		brightnessKnob = addNormalKnobClassic (291, 232, ownerFilter, BRIGHTNESS, "Bri", 1);
-
-		attackKnob = addNormalKnobClassic (791, 132, ownerFilter, LATK, "Atk", 0);
-		decayKnob = addNormalKnobClassic (853, 132, ownerFilter, LDEC, "Dec", 0);
-		sustainKnob = addNormalKnobClassic (916, 132, ownerFilter, LSUS, "Sus", 1);
-		releaseKnob = addNormalKnobClassic (980, 132, ownerFilter, LREL, "Rel", 0);
-
-		fattackKnob = addNormalKnobClassic (791, 40, ownerFilter, FATK, "Atk", 0);
-		fdecayKnob = addNormalKnobClassic (853, 40, ownerFilter, FDEC, "Dec", 0);
-		fsustainKnob = addNormalKnobClassic (916, 40, ownerFilter, FSUS, "Sus", 1);
-		freleaseKnob = addNormalKnobClassic (980, 40, ownerFilter, FREL, "Rel", 0);
-
-		lfoFrequencyKnob = addNormalKnobClassic (576, 207, ownerFilter, LFOFREQ, "Freq", 0);
-		lfoAmt1Knob = addNormalKnobClassic (640, 207, ownerFilter, LFO1AMT, "Pitch", 0);
-		lfoAmt2Knob = addNormalKnobClassic (704, 207, ownerFilter, LFO2AMT, "PWM", 0);
-
-		lfoSinButton = addNormalTooglableButtonClassic (587, 269, ownerFilter, LFOSINWAVE, "Sin");
-		lfoSquareButton = addNormalTooglableButtonClassic (587, 323, ownerFilter, LFOSQUAREWAVE, "SQ");
-		lfoSHButton = addNormalTooglableButtonClassic (587, 378, ownerFilter, LFOSHWAVE, "S&H");
-
-		lfoOsc1Button = addNormalTooglableButtonClassic (651, 269, ownerFilter, LFOOSC1, "Osc1");
-		lfoOsc2Button = addNormalTooglableButtonClassic (651, 323, ownerFilter, LFOOSC2, "Osc2");
-		lfoFilterButton = addNormalTooglableButtonClassic (651, 378, ownerFilter, LFOFILTER, "Filt");
-
-		lfoPwm1Button = addNormalTooglableButtonClassic (714, 269, ownerFilter, LFOPW1, "Osc1");
-		lfoPwm2Button = addNormalTooglableButtonClassic (714, 323, ownerFilter, LFOPW2, "Osc2");
-
-		hardSyncButton = addNormalTooglableButtonClassic (282, 178, ownerFilter, OSC2HS, "Sync");
-		osc1SawButton = addNormalTooglableButtonClassic (265, 114, ownerFilter, OSC1Saw, "S");
-		osc2SawButton = addNormalTooglableButtonClassic (394, 114, ownerFilter, OSC2Saw, "S");
-
-		osc1PulButton = addNormalTooglableButtonClassic (296, 114, ownerFilter, OSC1Pul, "P");
-		osc2PulButton = addNormalTooglableButtonClassic (425, 114, ownerFilter, OSC2Pul, "P");
-
-		pitchQuantButton =  addNormalTooglableButtonClassic (407, 178, ownerFilter, OSCQuantize, "Step");
-
-		filterBPBlendButton = addNormalTooglableButtonClassic (697, 110, ownerFilter, BANDPASS, "Bp");
-		fourPoleButton = addNormalTooglableButtonClassic (728, 110, ownerFilter, FOURPOLE, "24");
-		filterHQButton = addNormalTooglableButtonClassic (604, 110, ownerFilter, FILTER_WARM, "HQ");
-
-		filterKeyFollowButton =  addNormalTooglableButtonClassic (573, 110, ownerFilter, FLT_KF, "Key");
-		unisonButton = addNormalTooglableButtonClassic (125, 251, ownerFilter, UNISON, "Uni");
-		tuneKnob = addNormalKnobClassic (114, 120, ownerFilter, TUNE, "Tune", 0.5);
-		voiceDetuneKnob =addNormalKnobClassic (53, 241, ownerFilter, UDET, "VoiceDet", 0);
-
-		veloAmpEnvKnob = addNormalKnobClassic (486, 345, ownerFilter, VAMPENV, "VAE", 0);
-		veloFltEnvKnob = addNormalKnobClassic (428, 345, ownerFilter, VFLTENV, "VFE", 0);
-		midiLearnButton = addNormalTooglableButtonClassic (126, 372, ownerFilter, MIDILEARN, "LEA");
-		midiUnlearnButton = addNormalTooglableButtonClassic (185, 372, ownerFilter, UNLEARN, "UNL");
-		transposeKnob = addNormalKnobClassic (176, 120, ownerFilter, OCTAVE, "Transpose", 0.5);
-
-		pan1Knob = addTinyKnobClassic (796, 318, ownerFilter, PAN1, "1", 0.5);
-		pan2Knob = addTinyKnobClassic (858, 318, ownerFilter, PAN2, "2", 0.5);
-		pan3Knob = addTinyKnobClassic (921, 318, ownerFilter, PAN3, "3", 0.5);
-		pan4Knob = addTinyKnobClassic (984, 318, ownerFilter, PAN4, "4", 0.5);
-
-		pan5Knob = addTinyKnobClassic (796, 371, ownerFilter, PAN5, "5", 0.5);
-		pan6Knob = addTinyKnobClassic (858, 371, ownerFilter, PAN6, "6", 0.5);
-		pan7Knob = addTinyKnobClassic (921, 371, ownerFilter, PAN7, "7", 0.5);
-		pan8Knob = addTinyKnobClassic (984, 371, ownerFilter, PAN8, "8", 0.5);
-
-		bendOsc2OnlyButton = addNormalTooglableButtonClassic (321, 354, ownerFilter, BENDOSC2, "Osc2");
-		bendRangeButton = addNormalTooglableButtonClassic (267, 354, ownerFilter, BENDRANGE, "12");
-		asPlayedAllocButton = addNormalTooglableButtonClassic (65, 372, ownerFilter, ASPLAYEDALLOCATION, "APA");
-
-		filterDetuneKnob = addTinyKnobClassic (817, 240, ownerFilter, FILTERDER, "Flt", 0.2);
-		envelopeDetuneKnob = addTinyKnobClassic (963, 240, ownerFilter, ENVDER, "Env", 0.2);
-		portamentoDetuneKnob = addTinyKnobClassic (890, 240, ownerFilter, PORTADER, "Port", 0.2);
-
-		bendLfoRateKnob = addNormalKnobClassic (364, 345, ownerFilter, BENDLFORATE, "ModRate", 0.4);
-
-		voiceSwitch = addNormalButtonListClassic (172, 321, 38, ownerFilter, VOICE_COUNT, "VoiceCount", ImageCache::getFromFile (skinFolder.getChildFile ("voices.png")));
-        
-        for (int i = 1; i <= 32; ++i)
-        {
-            voiceSwitch->addChoice (String (i));
-        }
-
-		legatoSwitch = addNormalButtonListClassic (65, 321, 95, ownerFilter, LEGATOMODE, "Legato", ImageCache::getFromFile (skinFolder.getChildFile ("legato.png")));
-		legatoSwitch->addChoice ("Keep all");
-		legatoSwitch->addChoice ("Keep fenv");
-		legatoSwitch->addChoice ("Keep aenv");
-		legatoSwitch->addChoice ("Retrig");
-	}
     
     buttonListAttachments.add (new ButtonList::ButtonListAttachment (ownerFilter.getPluginState(),
                                                                      ownerFilter.getEngineParameterId (VOICE_COUNT),
