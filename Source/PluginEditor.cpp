@@ -12,12 +12,151 @@ It contains the basic startup code for a Juce application.
 #include <utility>
 // #include "GUI/BinaryData.h"
 
-
 //==============================================================================
 ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFilter)
 	: AudioProcessorEditor (&ownerFilter), processor (ownerFilter)
 {
-	rebuildComponents (processor);
+    skinFolder = ownerFilter.getCurrentSkinFolder();
+    
+    //File coords("/Users/jimmy/Downloads/coords.xml");
+    File coords = skinFolder.getChildFile ("coords.xml");
+    bool useClassicSkin = coords.existsAsFile();
+    if (!useClassicSkin) {
+       rebuildComponents (processor);
+       return;
+    }
+    
+    XmlDocument skin (coords);
+    XmlElement* doc = skin.getDocumentElement();
+    if (doc) {
+        if (doc->getTagName() == "PROPERTIES"){
+
+            forEachXmlChildElementWithTagName(*doc, child, "VALUE"){
+                if (child->hasAttribute("NAME") && child->hasAttribute("x") && child->hasAttribute("y")) {
+                    String name = child->getStringAttribute("NAME");
+                    int x = child->getIntAttribute("x");
+                    int y = child->getIntAttribute("y");
+                    int d = child->getIntAttribute("d");
+                    int range = child->getIntAttribute("range");
+
+                    if (name == "resonanceKnob"){ resonanceKnob = addNormalKnob (x, y, d, ownerFilter, RESONANCE, "Resonance", 0); }
+                    if (name == "cutoffKnob"){ cutoffKnob = addNormalKnob (x, y, d, ownerFilter, CUTOFF, "Cutoff", 0.4); }
+                    if (name == "filterEnvelopeAmtKnob"){ filterEnvelopeAmtKnob = addNormalKnob (x, y, d, ownerFilter, ENVELOPE_AMT, "Envelope", 0); }
+                    if (name == "multimodeKnob"){ multimodeKnob = addNormalKnob (x, y, d, ownerFilter, MULTIMODE, "Multimode", 0.5); }
+                    
+                    if (name == "volumeKnob"){ volumeKnob = addNormalKnob (x, y, d, ownerFilter, VOLUME, "Volume", 0.4); }
+                    if (name == "portamentoKnob"){ portamentoKnob = addNormalKnob (x, y, d, ownerFilter, PORTAMENTO, "Portamento", 0); }
+                    if (name == "osc1PitchKnob"){ osc1PitchKnob = addNormalKnob (x, y, d, ownerFilter, OSC1P, "Osc1Pitch", 0); }
+                    if (name == "pulseWidthKnob"){ pulseWidthKnob = addNormalKnob (x, y, d, ownerFilter, PW, "PW", 0); }
+                    if (name == "osc2PitchKnob"){ osc2PitchKnob = addNormalKnob (x, y, d, ownerFilter, OSC2P, "Osc2Pitch", 0); }
+                    
+                    if (name == "osc1MixKnob"){ osc1MixKnob = addNormalKnob (x, y, d, ownerFilter, OSC1MIX, "Osc1", 1); }
+                    if (name == "osc2MixKnob"){ osc2MixKnob = addNormalKnob (x, y, d, ownerFilter, OSC2MIX, "Osc2", 1); }
+                    if (name == "noiseMixKnob"){ noiseMixKnob = addNormalKnob (x, y, d, ownerFilter, NOISEMIX, "Noise", 0); }
+                    
+                    if (name == "xmodKnob"){ xmodKnob = addNormalKnob (x, y, d, ownerFilter, XMOD, "Xmod", 0); }
+                    if (name == "osc2DetuneKnob"){ osc2DetuneKnob = addNormalKnob (x, y, d, ownerFilter, OSC2_DET, "Detune", 0); }
+                    
+                    if (name == "envPitchModKnob"){ envPitchModKnob = addNormalKnob (x, y, d, ownerFilter, ENVPITCH, "PEnv", 0); }
+                    if (name == "brightnessKnob"){ brightnessKnob = addNormalKnob (x, y, d, ownerFilter, BRIGHTNESS, "Bri", 1); }
+                    
+                    if (name == "attackKnob"){ attackKnob = addNormalKnob (x, y, d, ownerFilter, LATK, "Atk", 0); }
+                    if (name == "decayKnob"){ decayKnob = addNormalKnob (x, y, d, ownerFilter, LDEC, "Dec", 0); }
+                    if (name == "sustainKnob"){ sustainKnob = addNormalKnob (x, y, d, ownerFilter, LSUS, "Sus", 1); }
+                    if (name == "releaseKnob"){ releaseKnob = addNormalKnob (x, y, d, ownerFilter, LREL, "Rel", 0); }
+                    
+                    if (name == "fattackKnob"){ fattackKnob = addNormalKnob (x, y, d, ownerFilter, FATK, "Atk", 0); }
+                    if (name == "fdecayKnob"){ fdecayKnob = addNormalKnob (x, y, d, ownerFilter, FDEC, "Dec", 0); }
+                    if (name == "fsustainKnob"){ fsustainKnob = addNormalKnob (x, y, d, ownerFilter, FSUS, "Sus", 1); }
+                    if (name == "freleaseKnob"){ freleaseKnob = addNormalKnob (x, y, d, ownerFilter, FREL, "Rel", 0); }
+                    
+                    if (name == "lfoFrequencyKnob"){ lfoFrequencyKnob = addNormalKnob (x, y, d, ownerFilter, LFOFREQ, "Freq", 0); }
+                    if (name == "lfoAmt1Knob"){ lfoAmt1Knob = addNormalKnob (x, y, d, ownerFilter, LFO1AMT, "Pitch", 0); }
+                    if (name == "lfoAmt2Knob"){ lfoAmt2Knob = addNormalKnob (x, y, d, ownerFilter, LFO2AMT, "PWM", 0); }
+                    
+                    if (name == "lfoSinButton"){ lfoSinButton = addNormalTooglableButton (x, y, ownerFilter, LFOSINWAVE, "Sin"); }
+                    if (name == "lfoSquareButton"){ lfoSquareButton = addNormalTooglableButton (x, y, ownerFilter, LFOSQUAREWAVE, "SQ"); }
+                    if (name == "lfoSHButton"){ lfoSHButton = addNormalTooglableButton (x, y, ownerFilter, LFOSHWAVE, "S&H"); }
+                    
+                    if (name == "lfoOsc1Button"){ lfoOsc1Button = addNormalTooglableButton (x, y, ownerFilter, LFOOSC1, "Osc1"); }
+                    if (name == "lfoOsc2Button"){ lfoOsc2Button = addNormalTooglableButton (x, y, ownerFilter, LFOOSC2, "Osc2"); }
+                    if (name == "lfoFilterButton"){ lfoFilterButton = addNormalTooglableButton (x, y, ownerFilter, LFOFILTER, "Filt"); }
+                    
+                    if (name == "lfoPwm1Button"){ lfoPwm1Button = addNormalTooglableButton (x, y, ownerFilter, LFOPW1, "Osc1"); }
+                    if (name == "lfoPwm2Button"){ lfoPwm2Button = addNormalTooglableButton (x, y, ownerFilter, LFOPW2, "Osc2"); }
+                    
+                    if (name == "hardSyncButton"){ hardSyncButton = addNormalTooglableButton (x, y, ownerFilter, OSC2HS, "Sync"); }
+                    if (name == "osc1SawButton"){ osc1SawButton = addNormalTooglableButton (x, y, ownerFilter, OSC1Saw, "S"); }
+                    if (name == "osc2SawButton"){ osc2SawButton = addNormalTooglableButton (x, y, ownerFilter, OSC2Saw, "S"); }
+                    
+                    if (name == "osc1PulButton"){ osc1PulButton = addNormalTooglableButton (x, y, ownerFilter, OSC1Pul, "P"); }
+                    if (name == "osc2PulButton"){ osc2PulButton = addNormalTooglableButton (x, y, ownerFilter, OSC2Pul, "P"); }
+                    
+                    if (name == "pitchQuantButton"){ pitchQuantButton =  addNormalTooglableButton (x, y, ownerFilter, OSCQuantize, "Step"); }
+                    
+                    if (name == "filterBPBlendButton"){ filterBPBlendButton = addNormalTooglableButton (x, y, ownerFilter, BANDPASS, "Bp"); }
+                    if (name == "fourPoleButton"){ fourPoleButton = addNormalTooglableButton (x, y, ownerFilter, FOURPOLE, "24"); }
+                    if (name == "filterHQButton"){ filterHQButton = addNormalTooglableButton (x, y, ownerFilter, FILTER_WARM, "HQ"); }
+                    
+                    if (name == "filterKeyFollowButton"){ filterKeyFollowButton =  addNormalTooglableButton (x, y, ownerFilter, FLT_KF, "Key"); }
+                    if (name == "unisonButton"){ unisonButton = addNormalTooglableButton (x, y, ownerFilter, UNISON, "Uni"); }
+                    
+                    if (name == "tuneKnob"){ tuneKnob = addNormalKnob (x, y, d, ownerFilter, TUNE, "Tune", 0.5); }
+                    if (name == "transposeKnob"){ transposeKnob = addNormalKnob (x, y, d, ownerFilter, OCTAVE, "Transpose", 0.5); }
+                    
+                    if (name == "voiceDetuneKnob"){ voiceDetuneKnob =addNormalKnob (x, y, d, ownerFilter, UDET, "VoiceDet", 0); }
+                    
+                    if (name == "bendLfoRateKnob"){ bendLfoRateKnob = addTinyKnob (x, y, ownerFilter, BENDLFORATE, "ModRate", 0.4); }
+                    if (name == "veloFltEnvKnob"){ veloFltEnvKnob = addTinyKnob (x, y, ownerFilter, VFLTENV, "VFE", 0); }
+                    if (name == "veloAmpEnvKnob"){ veloAmpEnvKnob = addTinyKnob (x, y, ownerFilter, VAMPENV, "VAE", 0); }
+                    if (name == "midiLearnButton"){ midiLearnButton = addNormalTooglableButton (x, y, ownerFilter, MIDILEARN, "LEA"); }
+                    if (name == "midiUnlearnButton"){ midiUnlearnButton = addNormalTooglableButton (x, y, ownerFilter, UNLEARN, "UNL"); }
+                    
+                    if (name == "pan1Knob"){ pan1Knob = addNormalKnob (x, y, d, ownerFilter, PAN1, "1", 0.5); }
+                    if (name == "pan2Knob"){ pan2Knob = addNormalKnob (x, y, d, ownerFilter, PAN2, "2", 0.5); }
+                    if (name == "pan3Knob"){ pan3Knob = addNormalKnob (x, y, d, ownerFilter, PAN3, "3", 0.5); }
+                    if (name == "pan4Knob"){ pan4Knob = addNormalKnob (x, y, d, ownerFilter, PAN4, "4", 0.5); }
+                    
+                    if (name == "pan5Knob"){ pan5Knob = addNormalKnob (x, y, d, ownerFilter, PAN5, "5", 0.5); }
+                    if (name == "pan6Knob"){ pan6Knob = addNormalKnob (x, y, d, ownerFilter, PAN6, "6", 0.5); }
+                    if (name == "pan7Knob"){ pan7Knob = addNormalKnob (x, y, d, ownerFilter, PAN7, "7", 0.5); }
+                    if (name == "pan8Knob"){ pan8Knob = addNormalKnob (x, y, d, ownerFilter, PAN8, "8", 0.5); }
+                    
+                    if (name == "bendOsc2OnlyButton"){ bendOsc2OnlyButton = addNormalTooglableButton (x, y, ownerFilter, BENDOSC2, "Osc2"); }
+                    if (name == "bendRangeButton"){ bendRangeButton = addNormalTooglableButton (x, y, ownerFilter, BENDRANGE, "12"); }
+                    if (name == "asPlayedAllocButton"){ asPlayedAllocButton = addNormalTooglableButton (x, y, ownerFilter, ASPLAYEDALLOCATION, "APA"); }
+                    
+                    if (name == "filterDetuneKnob"){ filterDetuneKnob = addNormalKnob (x, y, d, ownerFilter, FILTERDER, "Flt", 0.2); }
+                    if (name == "portamentoDetuneKnob"){ portamentoDetuneKnob = addNormalKnob (x, y, d, ownerFilter, PORTADER, "Port", 0.2); }
+                    if (name == "envelopeDetuneKnob"){ envelopeDetuneKnob = addNormalKnob (x, y, d, ownerFilter, ENVDER, "Env", 0.2); }
+                    
+                    if (name == "guisize"){ setSize (x, y); }
+                    
+                    if (name == "voiceSwitch"){ voiceSwitch = addNormalButtonList (x, y, range, ownerFilter, VOICE_COUNT, "VoiceCount", ImageCache::getFromFile(skinFolder.getChildFile("voices.png"))); }
+                    if (name == "legatoSwitch"){ legatoSwitch = addNormalButtonList (x, y, range, ownerFilter, LEGATOMODE, "Legato", ImageCache::getFromFile(skinFolder.getChildFile("legato.png"))); }
+                    
+                    //DBG(" Name: " << name << " X: " <<x <<" Y: "<<y);
+                }
+            }
+        }
+    }
+    
+    // Prepare data
+    if (voiceSwitch){
+        
+        for (int i = 1; i <= 32; ++i)
+        {
+            voiceSwitch->addChoice (String (i));
+        }
+    }
+    if (legatoSwitch) {
+        legatoSwitch->addChoice ("Keep All");
+        legatoSwitch->addChoice ("Keep Filter Envelope");
+        legatoSwitch->addChoice ("Keep Amplitude Envelope");
+        legatoSwitch->addChoice ("Retrig");
+    }
+	//rebuildComponents (processor);
+    repaint();
 }
 
 ObxdAudioProcessorEditor::~ObxdAudioProcessorEditor()
@@ -48,16 +187,16 @@ ButtonList* ObxdAudioProcessorEditor::addNormalButtonList (int x, int y, int wid
 
 }
 
-Knob* ObxdAudioProcessorEditor::addNormalKnob (int x, int y, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
+Knob* ObxdAudioProcessorEditor::addNormalKnob (int x, int y, int d, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
 {
-	Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knob_png, BinaryData::knob_pngSize), 48);
+	Knob* knob = new Knob (ImageCache::getFromFile(skinFolder.getChildFile("knob.png")), 48);
 	//Label* knobl = new Label();
 	knob->setSliderStyle (Slider::RotaryVerticalDrag);
 	knob->setTextBoxStyle (knob->NoTextBox, true, 0, 0);
 	knob->setRange (0, 1);
 	addAndMakeVisible (knob);
 	//addAndMakeVisible(knobl);
-	knob->setBounds (x, y, 48, 48);
+	knob->setBounds (x, y, d, d);
 //    knob->setValue (filter.getParameter (parameter), dontSendNotification);
 	//knobl->setJustificationType(Justification::centred);
 	//knobl->setInterceptsMouseClicks(false,true);
@@ -101,7 +240,7 @@ Knob* ObxdAudioProcessorEditor::addTinyKnob (int x, int y, ObxdAudioProcessor& f
 
 TooglableButton* ObxdAudioProcessorEditor::addNormalTooglableButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name)
 {
-	TooglableButton* button = new TooglableButton (ImageCache::getFromMemory (BinaryData::button_png, BinaryData::button_pngSize));
+	TooglableButton* button = new TooglableButton (ImageCache::getFromFile(skinFolder.getChildFile("button.png")));
 	//	button->setButtonStyle(DrawableButton::ButtonStyle::ImageAboveTextLabel);
 	addAndMakeVisible (button);
 	button->setBounds (x, y, 19, 35);
@@ -115,22 +254,6 @@ TooglableButton* ObxdAudioProcessorEditor::addNormalTooglableButton (int x, int 
 	return button;
 }
 
-TooglableButton* ObxdAudioProcessorEditor::addNormalTooglableButtonClassic (int x, int y, ObxdAudioProcessor& filter, int parameter, String name)
-{
-    TooglableButton* button = new TooglableButton (ImageCache::getFromFile (skinFolder.getChildFile ("button.png")));
-    //	button->setButtonStyle(DrawableButton::ButtonStyle::ImageAboveTextLabel);
-    addAndMakeVisible (button);
-    button->setBounds (x, y, 28, 35);
-    button->setButtonText (name);
-//    button->setValue(filter.getParameter(parameter),0);
-//    button->addListener(this);
-    toggleAttachments.add (new TooglableButton::ToggleAttachment (filter.getPluginState(),
-                                                                  filter.getEngineParameterId (parameter),
-                                                                  *button));
-    
-    return button;
-}
-
 void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilter)
 {
 	skinFolder = ownerFilter.getCurrentSkinFolder();
@@ -141,40 +264,40 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
     // deleteAllChildren();  // WATCH OUT!
 
 		setSize (1440, 450);
-		cutoffKnob = addNormalKnob (893, 77, ownerFilter, CUTOFF, "Cutoff", 0.4);
-		resonanceKnob = addNormalKnob (990, 77, ownerFilter, RESONANCE, "Resonance", 0);
-		filterEnvelopeAmtKnob = addNormalKnob (1088, 77, ownerFilter, ENVELOPE_AMT, "Envelope", 0);
-		multimodeKnob = addNormalKnob (990, 167, ownerFilter, MULTIMODE, "Multimode", 0.5);
+		cutoffKnob = addNormalKnob (893, 77, 48, ownerFilter, CUTOFF, "Cutoff", 0.4);
+		resonanceKnob = addNormalKnob (990, 77, 48, ownerFilter, RESONANCE, "Resonance", 0);
+		filterEnvelopeAmtKnob = addNormalKnob (1088, 77, 48, ownerFilter, ENVELOPE_AMT, "Envelope", 0);
+		multimodeKnob = addNormalKnob (990, 167, 48, ownerFilter, MULTIMODE, "Multimode", 0.5);
 
-		volumeKnob = addNormalKnob (56, 77, ownerFilter, VOLUME, "Volume", 0.4);
-		portamentoKnob = addNormalKnob (188, 77, ownerFilter, PORTAMENTO, "Portamento", 0);
-		osc1PitchKnob = addNormalKnob (593, 77, ownerFilter, OSC1P, "Osc1Pitch", 0);
-		pulseWidthKnob = addNormalKnob (691, 77, ownerFilter, PW, "PW", 0);
-		osc2PitchKnob = addNormalKnob (788, 77, ownerFilter, OSC2P, "Osc2Pitch", 0);
+		volumeKnob = addNormalKnob (56, 77, 48, ownerFilter, VOLUME, "Volume", 0.4);
+		portamentoKnob = addNormalKnob (188, 77, 48, ownerFilter, PORTAMENTO, "Portamento", 0);
+		osc1PitchKnob = addNormalKnob (593, 77, 48, ownerFilter, OSC1P, "Osc1Pitch", 0);
+		pulseWidthKnob = addNormalKnob (691, 77, 48, ownerFilter, PW, "PW", 0);
+		osc2PitchKnob = addNormalKnob (788, 77, 48, ownerFilter, OSC2P, "Osc2Pitch", 0);
 
-		osc1MixKnob = addNormalKnob (597, 237, ownerFilter, OSC1MIX, "Osc1", 1);
-		osc2MixKnob = addNormalKnob (788, 237, ownerFilter, OSC2MIX, "Osc2", 1);
-		noiseMixKnob = addNormalKnob (691, 237, ownerFilter, NOISEMIX, "Noise", 0);
+		osc1MixKnob = addNormalKnob (597, 237, 48, ownerFilter, OSC1MIX, "Osc1", 1);
+		osc2MixKnob = addNormalKnob (788, 237, 48, ownerFilter, OSC2MIX, "Osc2", 1);
+		noiseMixKnob = addNormalKnob (691, 237, 48, ownerFilter, NOISEMIX, "Noise", 0);
 
-		xmodKnob = addNormalKnob (656, 324, ownerFilter, XMOD, "Xmod", 0);
-		osc2DetuneKnob = addNormalKnob (800, 324, ownerFilter, OSC2_DET, "Detune", 0);
+		xmodKnob = addNormalKnob (656, 324, 48, ownerFilter, XMOD, "Xmod", 0);
+		osc2DetuneKnob = addNormalKnob (800, 324, 48, ownerFilter, OSC2_DET, "Detune", 0);
 
-		envPitchModKnob = addNormalKnob (728, 324, ownerFilter, ENVPITCH, "PEnv", 0);
-		brightnessKnob = addNormalKnob (586, 324, ownerFilter, BRIGHTNESS, "Bri", 1);
+		envPitchModKnob = addNormalKnob (728, 324, 48, ownerFilter, ENVPITCH, "PEnv", 0);
+		brightnessKnob = addNormalKnob (586, 324, 48, ownerFilter, BRIGHTNESS, "Bri", 1);
 
-		attackKnob = addNormalKnob (1182, 165, ownerFilter, LATK, "Atk", 0);
-		decayKnob = addNormalKnob (1246, 165, ownerFilter, LDEC, "Dec", 0);
-		sustainKnob = addNormalKnob (1309, 165, ownerFilter, LSUS, "Sus", 1);
-		releaseKnob = addNormalKnob (1373, 165, ownerFilter, LREL, "Rel", 0);
+		attackKnob = addNormalKnob (1182, 165, 48, ownerFilter, LATK, "Atk", 0);
+		decayKnob = addNormalKnob (1246, 165, 48, ownerFilter, LDEC, "Dec", 0);
+		sustainKnob = addNormalKnob (1309, 165, 48, ownerFilter, LSUS, "Sus", 1);
+		releaseKnob = addNormalKnob (1373, 165, 48, ownerFilter, LREL, "Rel", 0);
 
-		fattackKnob = addNormalKnob (1182, 75, ownerFilter, FATK, "Atk", 0);
-		fdecayKnob = addNormalKnob (1246, 75, ownerFilter, FDEC, "Dec", 0);
-		fsustainKnob = addNormalKnob (1309, 75, ownerFilter, FSUS, "Sus", 1);
-		freleaseKnob = addNormalKnob (1373, 75, ownerFilter, FREL, "Rel", 0);
+		fattackKnob = addNormalKnob (1182, 75, 48, ownerFilter, FATK, "Atk", 0);
+		fdecayKnob = addNormalKnob (1246, 75, 48, ownerFilter, FDEC, "Dec", 0);
+		fsustainKnob = addNormalKnob (1309, 75, 48, ownerFilter, FSUS, "Sus", 1);
+		freleaseKnob = addNormalKnob (1373, 75, 48, ownerFilter, FREL, "Rel", 0);
 
-		lfoFrequencyKnob = addNormalKnob (293, 77, ownerFilter, LFOFREQ, "Freq", 0);
-		lfoAmt1Knob = addNormalKnob (390, 77, ownerFilter, LFO1AMT, "Pitch", 0);
-		lfoAmt2Knob = addNormalKnob (488, 77, ownerFilter, LFO2AMT, "PWM", 0);
+		lfoFrequencyKnob = addNormalKnob (293, 77, 48, ownerFilter, LFOFREQ, "Freq", 0);
+		lfoAmt1Knob = addNormalKnob (390, 77, 48, ownerFilter, LFO1AMT, "Pitch", 0);
+		lfoAmt2Knob = addNormalKnob (488, 77, 48, ownerFilter, LFO2AMT, "PWM", 0);
 
 		lfoSinButton = addNormalTooglableButton (309, 162, ownerFilter, LFOSINWAVE, "Sin");
 		lfoSquareButton = addNormalTooglableButton (309, 252, ownerFilter, LFOSQUAREWAVE, "SQ");
@@ -203,10 +326,10 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
 		filterKeyFollowButton =  addNormalTooglableButton (887, 162, ownerFilter, FLT_KF, "Key");
 		unisonButton = addNormalTooglableButton (205, 162, ownerFilter, UNISON, "Uni");
 
-		tuneKnob = addNormalKnob (30, 252, ownerFilter, TUNE, "Tune", 0.5);
-		transposeKnob = addNormalKnob (90, 252, ownerFilter, OCTAVE, "Transpose", 0.5);
+		tuneKnob = addNormalKnob (30, 252, 48, ownerFilter, TUNE, "Tune", 0.5);
+		transposeKnob = addNormalKnob (90, 252, 48, ownerFilter, OCTAVE, "Transpose", 0.5);
 
-		voiceDetuneKnob =addNormalKnob (188, 252, ownerFilter, UDET, "VoiceDet", 0);
+		voiceDetuneKnob =addNormalKnob (188, 252, 48, ownerFilter, UDET, "VoiceDet", 0);
 
 		bendLfoRateKnob = addTinyKnob (928, 300, ownerFilter, BENDLFORATE, "ModRate", 0.4);
 		veloFltEnvKnob = addTinyKnob (1013, 300, ownerFilter, VFLTENV, "VFE", 0);
@@ -253,7 +376,7 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
     buttonListAttachments.add (new ButtonList::ButtonListAttachment (ownerFilter.getPluginState(),
                                                                      ownerFilter.getEngineParameterId (LEGATOMODE),
                                                                      *legatoSwitch));
-    
+
 	ownerFilter.addChangeListener (this);
 	repaint();
 }
