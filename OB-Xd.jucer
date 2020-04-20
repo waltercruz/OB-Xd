@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="mxW328" name="OB-Xd" projectType="audioplug" version="1.6.0"
+<JUCERPROJECT id="mxW328" name="OB-Xd" projectType="audioplug" version="2.0.0"
               bundleIdentifier="com.discoDSP.Obxd" includeBinaryInAppConfig="1"
               buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="0"
               pluginName="OB-Xd" pluginDesc="Emulation of famous OB-X, OB-Xa and OB-8 synths"
