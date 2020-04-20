@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<PROPERTIES>
+	<VALUE NAME="guisize" x="1087" y="442"/>
+	<VALUE NAME="cutoffKnob" x="577" y="40" d="40"/>  
+	<VALUE NAME="resonanceKnob" x="638" y="40" d="40"/>  
+	<VALUE NAME="filterEnvelopeAmtKnob" x="699" y="40" d="40"/>  
+	<VALUE NAME="multimodeKnob" x="643" y="106" d="40"/>  
+	<VALUE NAME="volumeKnob" x="53" y="120" d="40"/>
+  
+	<VALUE NAME="portamentoKnob" x="175" y="241" d="40"/>  
+	<VALUE NAME="osc1PitchKnob" x="271" y="40" d="40"/>  
+	<VALUE NAME="pulseWidthKnob" x="334" y="40" d="40"/>  
+	<VALUE NAME="osc2PitchKnob" x="397" y="40" d="40"/>  
+
+	<VALUE NAME="osc1MixKnob" x="490" y="40" d="40"/>  
+	<VALUE NAME="osc2MixKnob" x="490" y="132" d="40"/>  
+	<VALUE NAME="noiseMixKnob" x="490" y="224" d="40"/>  
+
+	<VALUE NAME="xmodKnob" x="334" y="168" d="40"/>  
+	<VALUE NAME="osc2DetuneKnob" x="334" y="104" d="40"/>  
+
+	<VALUE NAME="envPitchModKnob" x="376" y="232" d="40"/>  
+	<VALUE NAME="brightnessKnob" x="291" y="232" d="40"/>  
+
+	<VALUE NAME="attackKnob" x="796" y="132" d="40"/>  
+	<VALUE NAME="decayKnob" x="858" y="132" d="40"/>  
+	<VALUE NAME="sustainKnob" x="921" y="132" d="40"/>  
+	<VALUE NAME="releaseKnob" x="985" y="132" d="40"/>  
+
+	<VALUE NAME="fattackKnob" x="796" y="40" d="40"/>  
+	<VALUE NAME="fdecayKnob" x="858" y="40" d="40"/>  
+	<VALUE NAME="fsustainKnob" x="921" y="40" d="40"/>  
+	<VALUE NAME="freleaseKnob" x="985" y="40" d="40"/>  
+
+	<VALUE NAME="lfoFrequencyKnob" x="576" y="207" d="40"/>  
+	<VALUE NAME="lfoAmt1Knob" x="640" y="207" d="40"/>  
+	<VALUE NAME="lfoAmt2Knob" x="704" y="207" d="40"/>  
+
+	<VALUE NAME="lfoSinButton" x="587" y="269" d="40"/>  
+	<VALUE NAME="lfoSquareButton" x="587" y="323" d="40"/>  
+	<VALUE NAME="lfoSHButton" x="587" y="378" d="40"/>  
+
+	<VALUE NAME="lfoOsc1Button" x="651" y="269"/>  
+	<VALUE NAME="lfoOsc2Button" x="651" y="323"/>  
+	<VALUE NAME="lfoFilterButton" x="651" y="378"/>  
+
+	<VALUE NAME="lfoPwm1Button" x="714" y="269"/>  
+	<VALUE NAME="lfoPwm2Button" x="714" y="323"/>  
+
+	<VALUE NAME="hardSyncButton" x="282" y="178"/>  
+	<VALUE NAME="osc1SawButton" x="265" y="114"/>  
+	<VALUE NAME="osc2SawButton" x="394" y="114"/>  
+
+	<VALUE NAME="osc1PulButton" x="296" y="114"/>  
+	<VALUE NAME="osc2PulButton" x="425" y="114"/>  
+
+	<VALUE NAME="pitchQuantButton" x="407" y="178"/>  
+
+	<VALUE NAME="filterBPBlendButton" x="697" y="110"/>  
+	<VALUE NAME="fourPoleButton" x="728" y="110"/>  
+	<VALUE NAME="filterHQButton" x="604" y="110"/>  
+
+	<VALUE NAME="filterKeyFollowButton" x="573" y="110"/>  
+	<VALUE NAME="unisonButton" x="125" y="251"/>  
+	<VALUE NAME="tuneKnob" x="114" y="120" d="40"/>  
+
+	<VALUE NAME="voiceDetuneKnob" x="53" y="241" d="40"/>  
+
+	<VALUE NAME="veloAmpEnvKnob" x="486" y="345" d="40"/>  
+	<VALUE NAME="veloFltEnvKnob" x="428" y="345" d="40"/>  
+	<VALUE NAME="midiLearnButton" x="126" y="372" d="40"/>  
+	<VALUE NAME="midiUnlearnButton" x="185" y="372" d="40"/>  
+	<VALUE NAME="transposeKnob" x="176" y="120" d="40"/>  
+
+	<VALUE NAME="pan1Knob" x="801" y="323" d="32"/>  
+	<VALUE NAME="pan2Knob" x="863" y="323" d="32"/>  
+	<VALUE NAME="pan3Knob" x="926" y="323" d="32"/>  
+	<VALUE NAME="pan4Knob" x="989" y="323" d="32"/>  
+
+	<VALUE NAME="pan5Knob" x="801" y="376" d="32"/>  
+	<VALUE NAME="pan6Knob" x="863" y="376" d="32"/>  
+	<VALUE NAME="pan7Knob" x="926" y="376" d="32"/>  
+	<VALUE NAME="pan8Knob" x="989" y="376" d="32"/>  
+
+	<VALUE NAME="bendOsc2OnlyButton" x="321" y="354" d="32"/>  
+	<VALUE NAME="bendRangeButton" x="267" y="354" d="32"/>  
+	<VALUE NAME="asPlayedAllocButton" x="65" y="372" d="32"/>
+  
+	<VALUE NAME="filterDetuneKnob" x="817" y="240" d="32"/>  
+	<VALUE NAME="envelopeDetuneKnob" x="963" y="240" d="32"/>  
+	<VALUE NAME="portamentoDetuneKnob" x="890" y="240" d="32"/>  
+
+	<VALUE NAME="bendLfoRateKnob" x="364" y="345" d="32"/>  
+
+	<VALUE NAME="voiceSwitch" x="172" y="321" range="38"/>
+	<VALUE NAME="legatoSwitch" x="65" y="321" range="95"/>
+</PROPERTIES>
