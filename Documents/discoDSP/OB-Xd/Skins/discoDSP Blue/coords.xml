@@ -92,6 +92,6 @@
 	<VALUE NAME="portamentoDetuneKnob" x="1291" y="300" d="36"/>
 	<VALUE NAME="envelopeDetuneKnob" x="1353" y="300" d="36"/>
 		
-	<VALUE NAME="voiceSwitch" x="124" y="338" range="17"/>
-	<VALUE NAME="legatoSwitch" x="25" y="338" range="65"/>
+	<VALUE NAME="voiceSwitch" x="124" y="338" w="17" h="24"/>
+	<VALUE NAME="legatoSwitch" x="25" y="338" w="65" h="24"/>
 </PROPERTIES>

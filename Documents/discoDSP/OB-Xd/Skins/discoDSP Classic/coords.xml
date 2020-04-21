@@ -1,11 +1,19 @@
 <?xml version="1.0"?>
 <PROPERTIES>
 	<VALUE NAME="guisize" x="1087" y="442"/>
+
+	<VALUE NAME="volumeKnob" x="58" y="120" d="40"/>
+	<VALUE NAME="tuneKnob" x="116" y="120" d="40"/>  
+	<VALUE NAME="transposeKnob" x="181" y="120" d="40"/>  
+
 	<VALUE NAME="cutoffKnob" x="582" y="40" d="40"/>  
 	<VALUE NAME="resonanceKnob" x="643" y="40" d="40"/>  
 	<VALUE NAME="filterEnvelopeAmtKnob" x="704" y="40" d="40"/>  
 	<VALUE NAME="multimodeKnob" x="648" y="106" d="40"/>  
-	<VALUE NAME="volumeKnob" x="58" y="120" d="40"/>
+
+	<VALUE NAME="filterBPBlendButton" x="702" y="110"/>  
+	<VALUE NAME="fourPoleButton" x="733" y="110"/>  
+	<VALUE NAME="filterHQButton" x="609" y="110"/> 
   
 	<VALUE NAME="portamentoKnob" x="180" y="241" d="40"/>  
 	<VALUE NAME="osc1PitchKnob" x="276" y="40" d="40"/>  
@@ -56,31 +64,12 @@
 
 	<VALUE NAME="pitchQuantButton" x="412" y="178"/>  
 
-	<VALUE NAME="filterBPBlendButton" x="702" y="110"/>  
-	<VALUE NAME="fourPoleButton" x="733" y="110"/>  
-	<VALUE NAME="filterHQButton" x="609" y="110"/>  
-
 	<VALUE NAME="filterKeyFollowButton" x="578" y="110"/>  
+
 	<VALUE NAME="unisonButton" x="130" y="251"/>  
-	<VALUE NAME="tuneKnob" x="119" y="120" d="40"/>  
+	<VALUE NAME="voiceDetuneKnob" x="58" y="241" d="40"/>   
 
-	<VALUE NAME="voiceDetuneKnob" x="58" y="241" d="40"/>  
-
-	<VALUE NAME="veloAmpEnvKnob" x="491" y="345" d="40"/>  
-	<VALUE NAME="veloFltEnvKnob" x="433" y="345" d="40"/>  
-	<VALUE NAME="midiLearnButton" x="131" y="372" d="40"/>  
-	<VALUE NAME="midiUnlearnButton" x="190" y="372" d="40"/>  
-	<VALUE NAME="transposeKnob" x="181" y="120" d="40"/>  
-
-	<VALUE NAME="pan1Knob" x="801" y="323" d="32"/>  
-	<VALUE NAME="pan2Knob" x="863" y="323" d="32"/>  
-	<VALUE NAME="pan3Knob" x="926" y="323" d="32"/>  
-	<VALUE NAME="pan4Knob" x="989" y="323" d="32"/>  
-
-	<VALUE NAME="pan5Knob" x="801" y="376" d="32"/>  
-	<VALUE NAME="pan6Knob" x="863" y="376" d="32"/>  
-	<VALUE NAME="pan7Knob" x="926" y="376" d="32"/>  
-	<VALUE NAME="pan8Knob" x="989" y="376" d="32"/>  
+	<VALUE NAME="veloFltEnvKnob" x="433" y="345" d="40"/>
 
 	<VALUE NAME="bendOsc2OnlyButton" x="326" y="354" d="32"/>  
 	<VALUE NAME="bendRangeButton" x="272" y="354" d="32"/>  
@@ -91,7 +80,20 @@
 	<VALUE NAME="portamentoDetuneKnob" x="895" y="240" d="32"/>  
 
 	<VALUE NAME="bendLfoRateKnob" x="369" y="345" d="40"/>  
+	<VALUE NAME="veloAmpEnvKnob" x="491" y="345" d="40"/>   
+	<VALUE NAME="midiLearnButton" x="131" y="372" d="40"/>  
+	<VALUE NAME="midiUnlearnButton" x="190" y="372" d="40"/>  
 
-	<VALUE NAME="voiceSwitch" x="172" y="311" range="38"/>
-	<VALUE NAME="legatoSwitch" x="65" y="311" range="95"/>
+	<VALUE NAME="pan1Knob" x="801" y="323" d="32"/>  
+	<VALUE NAME="pan2Knob" x="863" y="323" d="32"/>  
+	<VALUE NAME="pan3Knob" x="926" y="323" d="32"/>  
+	<VALUE NAME="pan4Knob" x="989" y="323" d="32"/>  
+
+	<VALUE NAME="pan5Knob" x="801" y="376" d="32"/>  
+	<VALUE NAME="pan6Knob" x="863" y="376" d="32"/>  
+	<VALUE NAME="pan7Knob" x="926" y="376" d="32"/>  
+	<VALUE NAME="pan8Knob" x="989" y="376" d="32"/> 
+
+	<VALUE NAME="voiceSwitch" x="172" y="310" w="38" h="32"/>
+	<VALUE NAME="legatoSwitch" x="66" y="310" w="95" h="32"/>
 </PROPERTIES>
