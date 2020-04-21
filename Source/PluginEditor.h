@@ -44,7 +44,7 @@ private:
 	Knob* addTinyKnob (int x, int y, ObxdAudioProcessor& filter, int parameter, String name, float defval);
 	void placeLabel (int x, int y, String text);
 	TooglableButton* addNormalTooglableButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name);
-	TooglableButton* addTinyTooglableButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name);
+//	TooglableButton* addTinyTooglableButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name);
 
 	ButtonList* addNormalButtonList(int x, int y, int width, ObxdAudioProcessor& filter, int parameter, String name, Image img);
 //    void sliderValueChanged (Slider*) override;

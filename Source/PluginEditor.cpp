@@ -106,9 +106,9 @@ ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFil
                     
                     if (name == "voiceDetuneKnob"){ voiceDetuneKnob =addNormalKnob (x, y, d, ownerFilter, UDET, "VoiceDet", 0); }
                     
-                    if (name == "bendLfoRateKnob"){ bendLfoRateKnob = addTinyKnob (x, y, ownerFilter, BENDLFORATE, "ModRate", 0.4); }
-                    if (name == "veloFltEnvKnob"){ veloFltEnvKnob = addTinyKnob (x, y, ownerFilter, VFLTENV, "VFE", 0); }
-                    if (name == "veloAmpEnvKnob"){ veloAmpEnvKnob = addTinyKnob (x, y, ownerFilter, VAMPENV, "VAE", 0); }
+                    if (name == "bendLfoRateKnob"){ bendLfoRateKnob = addNormalKnob (x, y, d, ownerFilter, BENDLFORATE, "ModRate", 0.4); }
+                    if (name == "veloFltEnvKnob"){ veloFltEnvKnob = addNormalKnob (x, y, d, ownerFilter, VFLTENV, "VFE", 0); }
+                    if (name == "veloAmpEnvKnob"){ veloAmpEnvKnob = addNormalKnob (x, y, d, ownerFilter, VAMPENV, "VAE", 0); }
                     if (name == "midiLearnButton"){ midiLearnButton = addNormalTooglableButton (x, y, ownerFilter, MIDILEARN, "LEA"); }
                     if (name == "midiUnlearnButton"){ midiUnlearnButton = addNormalTooglableButton (x, y, ownerFilter, UNLEARN, "UNL"); }
                     
@@ -189,7 +189,7 @@ ButtonList* ObxdAudioProcessorEditor::addNormalButtonList (int x, int y, int wid
 
 Knob* ObxdAudioProcessorEditor::addNormalKnob (int x, int y, int d, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
 {
-	Knob* knob = new Knob (ImageCache::getFromFile(skinFolder.getChildFile("knob.png")), 48);
+	Knob* knob = new Knob (ImageCache::getFromFile(skinFolder.getChildFile("knob.png")), 144);
 	//Label* knobl = new Label();
 	knob->setSliderStyle (Slider::RotaryVerticalDrag);
 	knob->setTextBoxStyle (knob->NoTextBox, true, 0, 0);
@@ -201,32 +201,6 @@ Knob* ObxdAudioProcessorEditor::addNormalKnob (int x, int y, int d, ObxdAudioPro
 	//knobl->setJustificationType(Justification::centred);
 	//knobl->setInterceptsMouseClicks(false,true);
 	//knobl->setBounds(x-10,y+40,60,10);
-	//knobl->setText(name,dontSendNotification);
-	knob->setTextBoxIsEditable (false);
-	knob->setDoubleClickReturnValue (true, defval);
-//    knob->addListener (this);
-    knobAttachments.add (new Knob::KnobAttachment (filter.getPluginState(),
-                                                   filter.getEngineParameterId (parameter),
-                                                   *knob));
-    
-	return knob;
-}
-
-Knob* ObxdAudioProcessorEditor::addTinyKnob (int x, int y, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
-{
-	//Knob* knob = new Knob(ImageCache::getFromMemory(BinaryData::knobssd_png,BinaryData::knobssd_pngSize),42);
-    Knob* knob = new Knob (ImageCache::getFromMemory (BinaryData::knob_png, BinaryData::knob_pngSize), 48);
-	//Label* knobl = new Label();
-	knob->setSliderStyle (Slider::RotaryVerticalDrag);
-	knob->setTextBoxStyle (knob->NoTextBox, true, 0, 0);
-	knob->setRange (0, 1);
-	addAndMakeVisible (knob);
-	//addAndMakeVisible(knobl);
-	knob->setBounds (x, y, 36, 36);
-//    knob->setValue(filter.getParameter(parameter),dontSendNotification);
-	//knobl->setJustificationType(Justification::centred);
-	//knobl->setInterceptsMouseClicks(false,true);
-	//knobl->setBounds(x-10,y+25,50,10);
 	//knobl->setText(name,dontSendNotification);
 	knob->setTextBoxIsEditable (false);
 	knob->setDoubleClickReturnValue (true, defval);
@@ -329,32 +303,32 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
 		tuneKnob = addNormalKnob (30, 252, 48, ownerFilter, TUNE, "Tune", 0.5);
 		transposeKnob = addNormalKnob (90, 252, 48, ownerFilter, OCTAVE, "Transpose", 0.5);
 
-		voiceDetuneKnob =addNormalKnob (188, 252, 48, ownerFilter, UDET, "VoiceDet", 0);
+		voiceDetuneKnob = addNormalKnob (188, 252, 48, ownerFilter, UDET, "VoiceDet", 0);
 
-		bendLfoRateKnob = addTinyKnob (928, 300, ownerFilter, BENDLFORATE, "ModRate", 0.4);
-		veloFltEnvKnob = addTinyKnob (1013, 300, ownerFilter, VFLTENV, "VFE", 0);
-		veloAmpEnvKnob = addTinyKnob (1111, 300, ownerFilter, VAMPENV, "VAE", 0);
+		bendLfoRateKnob = addNormalKnob (928, 300, 36, ownerFilter, BENDLFORATE, "ModRate", 0.4);
+		veloFltEnvKnob = addNormalKnob (1013, 300, 36, ownerFilter, VFLTENV, "VFE", 0);
+		veloAmpEnvKnob = addNormalKnob (1111, 300, 36, ownerFilter, VAMPENV, "VAE", 0);
 
 		midiLearnButton = addNormalTooglableButton (74, 162, ownerFilter, MIDILEARN, "LEA");
 		midiUnlearnButton = addNormalTooglableButton (122, 162, ownerFilter, UNLEARN, "UNL");
 
-		pan1Knob = addTinyKnob (914, 368, ownerFilter, PAN1, "1", 0.5);
-		pan2Knob = addTinyKnob (977, 368, ownerFilter, PAN2, "2", 0.5);
-		pan3Knob = addTinyKnob (1040, 368, ownerFilter, PAN3, "3", 0.5);
-		pan4Knob = addTinyKnob (1103, 368, ownerFilter, PAN4, "4", 0.5);
+		pan1Knob = addNormalKnob (914, 368, 36, ownerFilter, PAN1, "1", 0.5);
+		pan2Knob = addNormalKnob (977, 368, 36, ownerFilter, PAN2, "2", 0.5);
+		pan3Knob = addNormalKnob (1040, 368, 36, ownerFilter, PAN3, "3", 0.5);
+		pan4Knob = addNormalKnob (1103, 368, 36, ownerFilter, PAN4, "4", 0.5);
 
-		pan5Knob = addTinyKnob (1165, 368, ownerFilter, PAN5, "5", 0.5);
-		pan6Knob = addTinyKnob (1228, 368, ownerFilter, PAN6, "6", 0.5);
-		pan7Knob = addTinyKnob (1290, 368, ownerFilter, PAN7, "7", 0.5);
-		pan8Knob = addTinyKnob (1353, 368, ownerFilter, PAN8, "8", 0.5);
+		pan5Knob = addNormalKnob (1165, 368, 36, ownerFilter, PAN5, "5", 0.5);
+		pan6Knob = addNormalKnob (1228, 368, 36, ownerFilter, PAN6, "6", 0.5);
+		pan7Knob = addNormalKnob (1290, 368, 36, ownerFilter, PAN7, "7", 0.5);
+		pan8Knob = addNormalKnob (1353, 368, 36, ownerFilter, PAN8, "8", 0.5);
 
 		bendOsc2OnlyButton = addNormalTooglableButton (228, 335, ownerFilter, BENDOSC2, "Osc2");
 		bendRangeButton = addNormalTooglableButton (183, 335, ownerFilter, BENDRANGE, "12");
 		asPlayedAllocButton = addNormalTooglableButton (25, 162, ownerFilter, ASPLAYEDALLOCATION, "APA");
 
-		filterDetuneKnob = addTinyKnob (1228, 300, ownerFilter, FILTERDER, "Flt", 0.2);
-		portamentoDetuneKnob = addTinyKnob (1291, 300, ownerFilter, PORTADER, "Port", 0.2);
-		envelopeDetuneKnob = addTinyKnob (1353, 300, ownerFilter, ENVDER, "Env", 0.2);
+		filterDetuneKnob = addNormalKnob (1228, 300, 36, ownerFilter, FILTERDER, "Flt", 0.2);
+		portamentoDetuneKnob = addNormalKnob (1291, 300, 36, ownerFilter, PORTADER, "Port", 0.2);
+		envelopeDetuneKnob = addNormalKnob (1353, 300, 36, ownerFilter, ENVDER, "Env", 0.2);
 
 		voiceSwitch = addNormalButtonList (124, 338, 17, ownerFilter, VOICE_COUNT, "VoiceCount", ImageCache::getFromMemory (BinaryData::voices_png, BinaryData::voices_pngSize));
         
