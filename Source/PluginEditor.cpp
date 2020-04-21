@@ -37,7 +37,8 @@ ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFil
                     int x = child->getIntAttribute("x");
                     int y = child->getIntAttribute("y");
                     int d = child->getIntAttribute("d");
-                    int range = child->getIntAttribute("range");
+                    int w = child->getIntAttribute("w");
+                    int h = child->getIntAttribute("h");
 
                     if (name == "resonanceKnob"){ resonanceKnob = addKnob (x, y, d, ownerFilter, RESONANCE, "Resonance", 0); }
                     if (name == "cutoffKnob"){ cutoffKnob = addKnob (x, y, d, ownerFilter, CUTOFF, "Cutoff", 0.4); }
@@ -132,8 +133,8 @@ ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFil
                     
                     if (name == "guisize"){ setSize (x, y); }
                     
-                    if (name == "voiceSwitch"){ voiceSwitch = addList (x, y, range, ownerFilter, VOICE_COUNT, "VoiceCount", ImageCache::getFromFile(skinFolder.getChildFile("voices.png"))); }
-                    if (name == "legatoSwitch"){ legatoSwitch = addList (x, y, range, ownerFilter, LEGATOMODE, "Legato", ImageCache::getFromFile(skinFolder.getChildFile("legato.png"))); }
+                    if (name == "voiceSwitch"){ voiceSwitch = addList (x, y, w, h, ownerFilter, VOICE_COUNT, "VoiceCount", ImageCache::getFromFile(skinFolder.getChildFile("voices.png"))); }
+                    if (name == "legatoSwitch"){ legatoSwitch = addList (x, y, w, h, ownerFilter, LEGATOMODE, "Legato", ImageCache::getFromFile(skinFolder.getChildFile("legato.png"))); }
                     
                     //DBG(" Name: " << name << " X: " <<x <<" Y: "<<y);
                 }
@@ -175,10 +176,10 @@ void ObxdAudioProcessorEditor::placeLabel (int x, int y, String text)
 	addAndMakeVisible (lab);
 }
 
-ButtonList* ObxdAudioProcessorEditor::addList (int x, int y, int width, ObxdAudioProcessor& filter, int parameter, String /*name*/, Image img)
+ButtonList* ObxdAudioProcessorEditor::addList (int x, int y, int width, int height, ObxdAudioProcessor& filter, int parameter, String /*name*/, Image img)
 {
-	ButtonList *bl = new ButtonList (img, 24);
-	bl->setBounds (x, y, width, 24);
+	ButtonList *bl = new ButtonList (img, height);
+	bl->setBounds (x, y, width, height);
 	//bl->setValue(filter->getParameter(parameter),dontSendNotification);
 	addAndMakeVisible (bl);
 //    bl->addListener (this);
@@ -331,15 +332,16 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
 		portamentoDetuneKnob = addKnob (1291, 300, 36, ownerFilter, PORTADER, "Port", 0.2);
 		envelopeDetuneKnob = addKnob (1353, 300, 36, ownerFilter, ENVDER, "Env", 0.2);
 
-		voiceSwitch = addList (124, 338, 17, ownerFilter, VOICE_COUNT, "VoiceCount", ImageCache::getFromMemory (BinaryData::voices_png, BinaryData::voices_pngSize));
+		voiceSwitch = addList (124, 338, 17, 24, ownerFilter, VOICE_COUNT, "VoiceCount", ImageCache::getFromMemory (BinaryData::voices_png, BinaryData::voices_pngSize));
         
         for (int i = 1; i <= 32; ++i)
         {
 		    voiceSwitch->addChoice (String (i));
         }
 
-		legatoSwitch = addList (25, 338, 65, ownerFilter, LEGATOMODE, "Legato", ImageCache::getFromMemory (BinaryData::legato_png, BinaryData::legato_pngSize));
-		legatoSwitch->addChoice ("Keep All");
+		legatoSwitch = addList (25, 338, 65, 24, ownerFilter, LEGATOMODE, "Legato", ImageCache::getFromMemory (BinaryData::legato_png, BinaryData::legato_pngSize));
+		
+        legatoSwitch->addChoice ("Keep All");
 		legatoSwitch->addChoice ("Keep Filter Envelope");
 		legatoSwitch->addChoice ("Keep Amplitude Envelope");
 		legatoSwitch->addChoice ("Retrig");

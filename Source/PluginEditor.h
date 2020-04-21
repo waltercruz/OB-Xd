@@ -43,7 +43,8 @@ private:
 	Knob* addKnob (int x, int y, int d, ObxdAudioProcessor& filter, int parameter, String name, float defval);
 	void placeLabel (int x, int y, String text);
 	TooglableButton* addButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name);
-	ButtonList* addList(int x, int y, int width, ObxdAudioProcessor& filter, int parameter, String name, Image img);
+	ButtonList* addList(int x, int y, int w, int h, ObxdAudioProcessor& filter, int parameter, String name, Image img);
+    //Menu* addMenu (int x, int y);
 
 	void rebuildComponents (ObxdAudioProcessor&);
 
