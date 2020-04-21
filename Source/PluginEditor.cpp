@@ -88,32 +88,32 @@ void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
                     if (name == "lfoAmt1Knob"){ lfoAmt1Knob = addKnob (x, y, d, ownerFilter, LFO1AMT, "Pitch", 0); }
                     if (name == "lfoAmt2Knob"){ lfoAmt2Knob = addKnob (x, y, d, ownerFilter, LFO2AMT, "PWM", 0); }
                     
-                    if (name == "lfoSinButton"){ lfoSinButton = addButton (x, y, ownerFilter, LFOSINWAVE, "Sin"); }
-                    if (name == "lfoSquareButton"){ lfoSquareButton = addButton (x, y, ownerFilter, LFOSQUAREWAVE, "SQ"); }
-                    if (name == "lfoSHButton"){ lfoSHButton = addButton (x, y, ownerFilter, LFOSHWAVE, "S&H"); }
+                    if (name == "lfoSinButton"){ lfoSinButton = addButton (x, y, w, h, ownerFilter, LFOSINWAVE, "Sin"); }
+                    if (name == "lfoSquareButton"){ lfoSquareButton = addButton (x, y,  w, h, ownerFilter, LFOSQUAREWAVE, "SQ"); }
+                    if (name == "lfoSHButton"){ lfoSHButton = addButton (x, y,  w, h, ownerFilter, LFOSHWAVE, "S&H"); }
                     
-                    if (name == "lfoOsc1Button"){ lfoOsc1Button = addButton (x, y, ownerFilter, LFOOSC1, "Osc1"); }
-                    if (name == "lfoOsc2Button"){ lfoOsc2Button = addButton (x, y, ownerFilter, LFOOSC2, "Osc2"); }
-                    if (name == "lfoFilterButton"){ lfoFilterButton = addButton (x, y, ownerFilter, LFOFILTER, "Filt"); }
+                    if (name == "lfoOsc1Button"){ lfoOsc1Button = addButton (x, y,  w, h, ownerFilter, LFOOSC1, "Osc1"); }
+                    if (name == "lfoOsc2Button"){ lfoOsc2Button = addButton (x, y,  w, h, ownerFilter, LFOOSC2, "Osc2"); }
+                    if (name == "lfoFilterButton"){ lfoFilterButton = addButton (x, y,  w, h, ownerFilter, LFOFILTER, "Filt"); }
                     
-                    if (name == "lfoPwm1Button"){ lfoPwm1Button = addButton (x, y, ownerFilter, LFOPW1, "Osc1"); }
-                    if (name == "lfoPwm2Button"){ lfoPwm2Button = addButton (x, y, ownerFilter, LFOPW2, "Osc2"); }
+                    if (name == "lfoPwm1Button"){ lfoPwm1Button = addButton (x, y,  w, h, ownerFilter, LFOPW1, "Osc1"); }
+                    if (name == "lfoPwm2Button"){ lfoPwm2Button = addButton (x, y,  w, h, ownerFilter, LFOPW2, "Osc2"); }
                     
-                    if (name == "hardSyncButton"){ hardSyncButton = addButton (x, y, ownerFilter, OSC2HS, "Sync"); }
-                    if (name == "osc1SawButton"){ osc1SawButton = addButton (x, y, ownerFilter, OSC1Saw, "S"); }
-                    if (name == "osc2SawButton"){ osc2SawButton = addButton (x, y, ownerFilter, OSC2Saw, "S"); }
+                    if (name == "hardSyncButton"){ hardSyncButton = addButton (x, y,  w, h, ownerFilter, OSC2HS, "Sync"); }
+                    if (name == "osc1SawButton"){ osc1SawButton = addButton (x, y,  w, h, ownerFilter, OSC1Saw, "S"); }
+                    if (name == "osc2SawButton"){ osc2SawButton = addButton (x, y,  w, h, ownerFilter, OSC2Saw, "S"); }
                     
-                    if (name == "osc1PulButton"){ osc1PulButton = addButton (x, y, ownerFilter, OSC1Pul, "P"); }
-                    if (name == "osc2PulButton"){ osc2PulButton = addButton (x, y, ownerFilter, OSC2Pul, "P"); }
+                    if (name == "osc1PulButton"){ osc1PulButton = addButton (x, y,  w, h, ownerFilter, OSC1Pul, "P"); }
+                    if (name == "osc2PulButton"){ osc2PulButton = addButton (x, y,  w, h, ownerFilter, OSC2Pul, "P"); }
                     
-                    if (name == "pitchQuantButton"){ pitchQuantButton =  addButton (x, y, ownerFilter, OSCQuantize, "Step"); }
+                    if (name == "pitchQuantButton"){ pitchQuantButton =  addButton (x, y,  w, h, ownerFilter, OSCQuantize, "Step"); }
                     
-                    if (name == "filterBPBlendButton"){ filterBPBlendButton = addButton (x, y, ownerFilter, BANDPASS, "Bp"); }
-                    if (name == "fourPoleButton"){ fourPoleButton = addButton (x, y, ownerFilter, FOURPOLE, "24"); }
-                    if (name == "filterHQButton"){ filterHQButton = addButton (x, y, ownerFilter, FILTER_WARM, "HQ"); }
+                    if (name == "filterBPBlendButton"){ filterBPBlendButton = addButton (x, y,  w, h, ownerFilter, BANDPASS, "Bp"); }
+                    if (name == "fourPoleButton"){ fourPoleButton = addButton (x, y,  w, h, ownerFilter, FOURPOLE, "24"); }
+                    if (name == "filterHQButton"){ filterHQButton = addButton (x, y,  w, h, ownerFilter, FILTER_WARM, "HQ"); }
                     
-                    if (name == "filterKeyFollowButton"){ filterKeyFollowButton =  addButton (x, y, ownerFilter, FLT_KF, "Key"); }
-                    if (name == "unisonButton"){ unisonButton = addButton (x, y, ownerFilter, UNISON, "Uni"); }
+                    if (name == "filterKeyFollowButton"){ filterKeyFollowButton =  addButton (x, y,  w, h, ownerFilter, FLT_KF, "Key"); }
+                    if (name == "unisonButton"){ unisonButton = addButton (x, y,  w, h, ownerFilter, UNISON, "Uni"); }
                     
                     if (name == "tuneKnob"){ tuneKnob = addKnob (x, y, d, ownerFilter, TUNE, "Tune", 0.5); }
                     if (name == "transposeKnob"){ transposeKnob = addKnob (x, y, d, ownerFilter, OCTAVE, "Transpose", 0.5); }
@@ -123,8 +123,8 @@ void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
                     if (name == "bendLfoRateKnob"){ bendLfoRateKnob = addKnob (x, y, d, ownerFilter, BENDLFORATE, "ModRate", 0.4); }
                     if (name == "veloFltEnvKnob"){ veloFltEnvKnob = addKnob (x, y, d, ownerFilter, VFLTENV, "VFE", 0); }
                     if (name == "veloAmpEnvKnob"){ veloAmpEnvKnob = addKnob (x, y, d, ownerFilter, VAMPENV, "VAE", 0); }
-                    if (name == "midiLearnButton"){ midiLearnButton = addButton (x, y, ownerFilter, MIDILEARN, "LEA"); }
-                    if (name == "midiUnlearnButton"){ midiUnlearnButton = addButton (x, y, ownerFilter, UNLEARN, "UNL"); }
+                    if (name == "midiLearnButton"){ midiLearnButton = addButton (x, y,  w, h, ownerFilter, MIDILEARN, "LEA"); }
+                    if (name == "midiUnlearnButton"){ midiUnlearnButton = addButton (x, y,  w, h, ownerFilter, UNLEARN, "UNL"); }
                     
                     if (name == "pan1Knob"){ pan1Knob = addKnob (x, y, d, ownerFilter, PAN1, "1", 0.5); }
                     if (name == "pan2Knob"){ pan2Knob = addKnob (x, y, d, ownerFilter, PAN2, "2", 0.5); }
@@ -136,9 +136,9 @@ void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
                     if (name == "pan7Knob"){ pan7Knob = addKnob (x, y, d, ownerFilter, PAN7, "7", 0.5); }
                     if (name == "pan8Knob"){ pan8Knob = addKnob (x, y, d, ownerFilter, PAN8, "8", 0.5); }
                     
-                    if (name == "bendOsc2OnlyButton"){ bendOsc2OnlyButton = addButton (x, y, ownerFilter, BENDOSC2, "Osc2"); }
-                    if (name == "bendRangeButton"){ bendRangeButton = addButton (x, y, ownerFilter, BENDRANGE, "12"); }
-                    if (name == "asPlayedAllocButton"){ asPlayedAllocButton = addButton (x, y, ownerFilter, ASPLAYEDALLOCATION, "APA"); }
+                    if (name == "bendOsc2OnlyButton"){ bendOsc2OnlyButton = addButton (x, y,  w, h, ownerFilter, BENDOSC2, "Osc2"); }
+                    if (name == "bendRangeButton"){ bendRangeButton = addButton (x, y,  w, h, ownerFilter, BENDRANGE, "12"); }
+                    if (name == "asPlayedAllocButton"){ asPlayedAllocButton = addButton (x, y,  w, h, ownerFilter, ASPLAYEDALLOCATION, "APA"); }
                     
                     if (name == "filterDetuneKnob"){ filterDetuneKnob = addKnob (x, y, d, ownerFilter, FILTERDER, "Flt", 0.2); }
                     if (name == "portamentoDetuneKnob"){ portamentoDetuneKnob = addKnob (x, y, d, ownerFilter, PORTADER, "Port", 0.2); }
@@ -276,12 +276,12 @@ void ObxdAudioProcessorEditor::clean(){
      */
 }
 
-TooglableButton* ObxdAudioProcessorEditor::addButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name)
+TooglableButton* ObxdAudioProcessorEditor::addButton (int x, int y, int w, int h, ObxdAudioProcessor& filter, int parameter, String name)
 {
 	TooglableButton* button = new TooglableButton (ImageCache::getFromFile(skinFolder.getChildFile("button.png")));
 	//	button->setButtonStyle(DrawableButton::ButtonStyle::ImageAboveTextLabel);
 	addAndMakeVisible (button);
-	button->setBounds (x, y, 19, 35);
+	button->setBounds (x, y, w, h);
 	button->setButtonText (name);
 //    button->setValue(filter.getParameter(parameter),0);
 //    button->addListener(this);
@@ -337,32 +337,32 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
 		lfoAmt1Knob = addKnob (390, 77, 48, ownerFilter, LFO1AMT, "Pitch", 0);
 		lfoAmt2Knob = addKnob (488, 77, 48, ownerFilter, LFO2AMT, "PWM", 0);
 
-		lfoSinButton = addButton (309, 162, ownerFilter, LFOSINWAVE, "Sin");
-		lfoSquareButton = addButton (309, 252, ownerFilter, LFOSQUAREWAVE, "SQ");
-		lfoSHButton = addButton (309, 335, ownerFilter, LFOSHWAVE, "S&H");
+		lfoSinButton = addButton (309, 162, 19, 35, ownerFilter, LFOSINWAVE, "Sin");
+		lfoSquareButton = addButton (309, 252,  19, 35, ownerFilter, LFOSQUAREWAVE, "SQ");
+		lfoSHButton = addButton (309, 335,  19, 35, ownerFilter, LFOSHWAVE, "S&H");
 
-		lfoOsc1Button = addButton (406, 162, ownerFilter, LFOOSC1, "Osc1");
-		lfoOsc2Button = addButton (406, 252, ownerFilter, LFOOSC2, "Osc2");
-		lfoFilterButton = addButton (406, 335, ownerFilter, LFOFILTER, "Filt");
+		lfoOsc1Button = addButton (406, 162,  19, 35, ownerFilter, LFOOSC1, "Osc1");
+		lfoOsc2Button = addButton (406, 252,  19, 35, ownerFilter, LFOOSC2, "Osc2");
+		lfoFilterButton = addButton (406, 335,  19, 35, ownerFilter, LFOFILTER, "Filt");
 
-		lfoPwm1Button = addButton (504, 162, ownerFilter, LFOPW1, "Osc1");
-		lfoPwm2Button = addButton (504, 252, ownerFilter, LFOPW2, "Osc2");
+		lfoPwm1Button = addButton (504, 162,  19, 35, ownerFilter, LFOPW1, "Osc1");
+		lfoPwm2Button = addButton (504, 252,  19, 35, ownerFilter, LFOPW2, "Osc2");
 
-		hardSyncButton = addButton (730, 162, ownerFilter, OSC2HS, "Sync");
-		osc1SawButton = addButton (587, 162, ownerFilter, OSC1Saw, "S");
-		osc2SawButton = addButton (782, 162, ownerFilter, OSC2Saw, "S");
+		hardSyncButton = addButton (730, 162,  19, 35, ownerFilter, OSC2HS, "Sync");
+		osc1SawButton = addButton (587, 162,  19, 35, ownerFilter, OSC1Saw, "S");
+		osc2SawButton = addButton (782, 162,  19, 35, ownerFilter, OSC2Saw, "S");
 
-		osc1PulButton = addButton (632, 162, ownerFilter, OSC1Pul, "P");
-		osc2PulButton = addButton (827, 162, ownerFilter, OSC2Pul, "P");
+		osc1PulButton = addButton (632, 162,  19, 35, ownerFilter, OSC1Pul, "P");
+		osc2PulButton = addButton (827, 162,  19, 35, ownerFilter, OSC2Pul, "P");
 
-		pitchQuantButton =  addButton (684, 162, ownerFilter, OSCQuantize, "Step");
+		pitchQuantButton =  addButton (684, 162,  19, 35, ownerFilter, OSCQuantize, "Step");
 
-		filterBPBlendButton = addButton (1082, 162, ownerFilter, BANDPASS, "Bp");
-		fourPoleButton = addButton (1127, 162, ownerFilter, FOURPOLE, "24");
-		filterHQButton = addButton (932, 162, ownerFilter, FILTER_WARM, "HQ");
+		filterBPBlendButton = addButton (1082, 162,  19, 35, ownerFilter, BANDPASS, "Bp");
+		fourPoleButton = addButton (1127, 162,  19, 35, ownerFilter, FOURPOLE, "24");
+		filterHQButton = addButton (932, 162,  19, 35, ownerFilter, FILTER_WARM, "HQ");
 
-		filterKeyFollowButton =  addButton (887, 162, ownerFilter, FLT_KF, "Key");
-		unisonButton = addButton (205, 162, ownerFilter, UNISON, "Uni");
+		filterKeyFollowButton =  addButton (887, 162,  19, 35, ownerFilter, FLT_KF, "Key");
+		unisonButton = addButton (205, 162,  19, 35, ownerFilter, UNISON, "Uni");
 
 		tuneKnob = addKnob (30, 252, 48, ownerFilter, TUNE, "Tune", 0.5);
 		transposeKnob = addKnob (90, 252, 48, ownerFilter, OCTAVE, "Transpose", 0.5);
@@ -373,8 +373,8 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
 		veloFltEnvKnob = addKnob (1013, 300, 36, ownerFilter, VFLTENV, "VFE", 0);
 		veloAmpEnvKnob = addKnob (1111, 300, 36, ownerFilter, VAMPENV, "VAE", 0);
 
-		midiLearnButton = addButton (74, 162, ownerFilter, MIDILEARN, "LEA");
-		midiUnlearnButton = addButton (122, 162, ownerFilter, UNLEARN, "UNL");
+		midiLearnButton = addButton (74, 162,  19, 35, ownerFilter, MIDILEARN, "LEA");
+		midiUnlearnButton = addButton (122, 162,  19, 35, ownerFilter, UNLEARN, "UNL");
 
 		pan1Knob = addKnob (914, 368, 36, ownerFilter, PAN1, "1", 0.5);
 		pan2Knob = addKnob (977, 368, 36, ownerFilter, PAN2, "2", 0.5);
@@ -386,9 +386,9 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
 		pan7Knob = addKnob (1290, 368, 36, ownerFilter, PAN7, "7", 0.5);
 		pan8Knob = addKnob (1353, 368, 36, ownerFilter, PAN8, "8", 0.5);
 
-		bendOsc2OnlyButton = addButton (228, 335, ownerFilter, BENDOSC2, "Osc2");
-		bendRangeButton = addButton (183, 335, ownerFilter, BENDRANGE, "12");
-		asPlayedAllocButton = addButton (25, 162, ownerFilter, ASPLAYEDALLOCATION, "APA");
+		bendOsc2OnlyButton = addButton (228, 335,  19, 35, ownerFilter, BENDOSC2, "Osc2");
+		bendRangeButton = addButton (183, 335,  19, 35, ownerFilter, BENDRANGE, "12");
+		asPlayedAllocButton = addButton (25, 162,  19, 35, ownerFilter, ASPLAYEDALLOCATION, "APA");
 
 		filterDetuneKnob = addKnob (1228, 300, 36, ownerFilter, FILTERDER, "Flt", 0.2);
 		portamentoDetuneKnob = addKnob (1291, 300, 36, ownerFilter, PORTADER, "Port", 0.2);
