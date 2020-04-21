@@ -12,9 +12,9 @@
 	<VALUE NAME="pulseWidthKnob" x="339" y="40" d="40"/>  
 	<VALUE NAME="osc2PitchKnob" x="402" y="40" d="40"/>  
 
-	<VALUE NAME="osc1MixKnob" x="495" y="40" d="40"/>  
-	<VALUE NAME="osc2MixKnob" x="495" y="132" d="40"/>  
-	<VALUE NAME="noiseMixKnob" x="495" y="224" d="40"/>  
+	<VALUE NAME="osc1MixKnob" x="492" y="40" d="40"/>  
+	<VALUE NAME="osc2MixKnob" x="492" y="132" d="40"/>  
+	<VALUE NAME="noiseMixKnob" x="492" y="224" d="40"/>  
 
 	<VALUE NAME="xmodKnob" x="339" y="168" d="40"/>  
 	<VALUE NAME="osc2DetuneKnob" x="339" y="104" d="40"/>  
@@ -92,6 +92,6 @@
 
 	<VALUE NAME="bendLfoRateKnob" x="369" y="345" d="40"/>  
 
-	<VALUE NAME="voiceSwitch" x="172" y="321" range="38"/>
-	<VALUE NAME="legatoSwitch" x="65" y="321" range="95"/>
+	<VALUE NAME="voiceSwitch" x="172" y="311" range="38"/>
+	<VALUE NAME="legatoSwitch" x="65" y="311" range="95"/>
 </PROPERTIES>
