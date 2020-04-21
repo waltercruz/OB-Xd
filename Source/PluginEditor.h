@@ -40,16 +40,10 @@ public:
 	void changeListenerCallback (ChangeBroadcaster* source) override;
 
 private:
-	Knob* addNormalKnob (int x, int y, int d, ObxdAudioProcessor& filter, int parameter, String name, float defval);
-	Knob* addTinyKnob (int x, int y, ObxdAudioProcessor& filter, int parameter, String name, float defval);
+	Knob* addKnob (int x, int y, int d, ObxdAudioProcessor& filter, int parameter, String name, float defval);
 	void placeLabel (int x, int y, String text);
-	TooglableButton* addNormalTooglableButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name);
-//	TooglableButton* addTinyTooglableButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name);
-
-	ButtonList* addNormalButtonList(int x, int y, int width, ObxdAudioProcessor& filter, int parameter, String name, Image img);
-//    void sliderValueChanged (Slider*) override;
-//    void buttonClicked (Button*) override;
-//    void comboBoxChanged (ComboBox*) override;
+	TooglableButton* addButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name);
+	ButtonList* addList(int x, int y, int width, ObxdAudioProcessor& filter, int parameter, String name, Image img);
 
 	void rebuildComponents (ObxdAudioProcessor&);
 
