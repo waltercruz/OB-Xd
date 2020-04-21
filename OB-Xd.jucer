@@ -199,8 +199,7 @@
     <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
     <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_WEB_BROWSER="0" JUCE_FORCE_LEGACY_PARAMETER_AUTOMATION_TYPE="1"
-               JUCE_FORCE_USE_LEGACY_PARAM_IDS="1"/>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_WEB_BROWSER="0" JUCE_FORCE_USE_LEGACY_PARAM_IDS="1"/>
   <LIVE_SETTINGS>
     <OSX/>
     <WINDOWS/>
