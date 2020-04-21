@@ -90,7 +90,7 @@
 	<VALUE NAME="envelopeDetuneKnob" x="963" y="240" d="32"/>  
 	<VALUE NAME="portamentoDetuneKnob" x="890" y="240" d="32"/>  
 
-	<VALUE NAME="bendLfoRateKnob" x="364" y="345" d="32"/>  
+	<VALUE NAME="bendLfoRateKnob" x="364" y="345" d="40"/>  
 
 	<VALUE NAME="voiceSwitch" x="172" y="321" range="38"/>
 	<VALUE NAME="legatoSwitch" x="65" y="321" range="95"/>
