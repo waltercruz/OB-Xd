@@ -79,6 +79,7 @@ public:
         g.drawImage (kni, 0, 0, getWidth(), getHeight(), 0, h2 * ofs, w2, h2);
 	}
     
+    ~Knob() override {};
 private:
 	Image kni;
 	int fh, numFr;

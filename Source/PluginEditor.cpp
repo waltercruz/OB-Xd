@@ -18,7 +18,17 @@ ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFil
 {
     skinFolder = ownerFilter.getCurrentSkinFolder();
     
+    loadSkin(processor);
+	//rebuildComponents (processor);
+    //
+    //clean();
+    repaint();
+}
+
+void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
+    ownerFilter.removeChangeListener (this);
     //File coords("/Users/jimmy/Downloads/coords.xml");
+    skinFolder = ownerFilter.getCurrentSkinFolder();
     File coords = skinFolder.getChildFile ("coords.xml");
     bool useClassicSkin = coords.existsAsFile();
     if (!useClassicSkin) {
@@ -29,8 +39,9 @@ ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFil
     XmlDocument skin (coords);
     XmlElement* doc = skin.getDocumentElement();
     if (doc) {
+        
         if (doc->getTagName() == "PROPERTIES"){
-
+            
             forEachXmlChildElementWithTagName(*doc, child, "VALUE"){
                 if (child->hasAttribute("NAME") && child->hasAttribute("x") && child->hasAttribute("y")) {
                     String name = child->getStringAttribute("NAME");
@@ -39,6 +50,8 @@ ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFil
                     int d = child->getIntAttribute("d");
                     int w = child->getIntAttribute("w");
                     int h = child->getIntAttribute("h");
+                    
+                    if (name == "guisize"){ setSize (x, y); }
 
                     if (name == "resonanceKnob"){ resonanceKnob = addKnob (x, y, d, ownerFilter, RESONANCE, "Resonance", 0); }
                     if (name == "cutoffKnob"){ cutoffKnob = addKnob (x, y, d, ownerFilter, CUTOFF, "Cutoff", 0.4); }
@@ -130,11 +143,13 @@ ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFil
                     if (name == "filterDetuneKnob"){ filterDetuneKnob = addKnob (x, y, d, ownerFilter, FILTERDER, "Flt", 0.2); }
                     if (name == "portamentoDetuneKnob"){ portamentoDetuneKnob = addKnob (x, y, d, ownerFilter, PORTADER, "Port", 0.2); }
                     if (name == "envelopeDetuneKnob"){ envelopeDetuneKnob = addKnob (x, y, d, ownerFilter, ENVDER, "Env", 0.2); }
-                    
-                    if (name == "guisize"){ setSize (x, y); }
-                    
-                    if (name == "voiceSwitch"){ voiceSwitch = addList (x, y, w, h, ownerFilter, VOICE_COUNT, "VoiceCount", ImageCache::getFromFile(skinFolder.getChildFile("voices.png"))); }
-                    if (name == "legatoSwitch"){ legatoSwitch = addList (x, y, w, h, ownerFilter, LEGATOMODE, "Legato", ImageCache::getFromFile(skinFolder.getChildFile("legato.png"))); }
+                                        
+                    if (name == "voiceSwitch"){
+                        //if (voiceSwitch) voiceSwitch->setVisible(false);
+                        voiceSwitch = addList (x, y, w, h, ownerFilter, VOICE_COUNT, "VoiceCount", ImageCache::getFromFile(skinFolder.getChildFile("voices.png"))); }
+                    if (name == "legatoSwitch"){
+                        //if (legatoSwitch) legatoSwitch->setVisible(false);
+                        legatoSwitch = addList (x, y, w, h, ownerFilter, LEGATOMODE, "Legato", ImageCache::getFromFile(skinFolder.getChildFile("legato.png"))); }
                     
                     //DBG(" Name: " << name << " X: " <<x <<" Y: "<<y);
                 }
@@ -148,6 +163,7 @@ ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFil
         for (int i = 1; i <= 32; ++i)
         {
             voiceSwitch->addChoice (String (i));
+            voiceSwitch ->setValue(ownerFilter.getParameter(VOICE_COUNT),dontSendNotification);
         }
     }
     if (legatoSwitch) {
@@ -155,11 +171,12 @@ ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFil
         legatoSwitch->addChoice ("Keep Filter Envelope");
         legatoSwitch->addChoice ("Keep Amplitude Envelope");
         legatoSwitch->addChoice ("Retrig");
+        legatoSwitch ->setValue(ownerFilter.getParameter(LEGATOMODE),dontSendNotification);
     }
-	//rebuildComponents (processor);
+    
+    ownerFilter.addChangeListener (this);
     repaint();
 }
-
 ObxdAudioProcessorEditor::~ObxdAudioProcessorEditor()
 {
 	processor.removeChangeListener (this);
@@ -197,7 +214,7 @@ Knob* ObxdAudioProcessorEditor::addKnob (int x, int y, int d, ObxdAudioProcessor
 	knob->setRange (0, 1);
 	addAndMakeVisible (knob);
 	//addAndMakeVisible(knobl);
-	knob->setBounds (x, y, d, d);
+	knob->setBounds (x, y, d+(d/6), d+(d/6));
 //    knob->setValue (filter.getParameter (parameter), dontSendNotification);
 	//knobl->setJustificationType(Justification::centred);
 	//knobl->setInterceptsMouseClicks(false,true);
@@ -212,6 +229,51 @@ Knob* ObxdAudioProcessorEditor::addKnob (int x, int y, int d, ObxdAudioProcessor
                                                    *knob));
     
 	return knob;
+}
+
+
+void ObxdAudioProcessorEditor::clean(){
+    this->removeAllChildren();
+    /*
+    //knobAttachments.clearQuick(true);
+    //toggleAttachments.clearQuick(true);
+    //buttonListAttachments.clearQuick(true);
+    
+    for (auto knob : {&cutoffKnob,&resonanceKnob,&osc1PitchKnob,&osc2PitchKnob,&osc2DetuneKnob,&volumeKnob, &portamentoKnob,&voiceDetuneKnob,&filterEnvelopeAmtKnob,&pulseWidthKnob,&xmodKnob,&multimodeKnob,&attackKnob,&decayKnob,&sustainKnob,&releaseKnob,
+    &fattackKnob,&fdecayKnob,&fsustainKnob,&freleaseKnob,&osc1MixKnob,&osc2MixKnob,&noiseMixKnob,
+    &filterDetuneKnob,&envelopeDetuneKnob,&portamentoDetuneKnob,
+    &tuneKnob,
+    &lfoFrequencyKnob,&lfoAmt1Knob,&lfoAmt2Knob,
+    &pan1Knob,&pan2Knob,&pan3Knob,&pan4Knob,&pan5Knob,&pan6Knob,&pan7Knob,&pan8Knob
+    }){
+            if (*knob){
+                (*knob)->deleteAllChildren();
+                delete *knob;
+                *knob = nullptr;
+            }
+        }
+    
+    for (auto btn : {&osc1SawButton,&osc2SawButton,&osc1PulButton,&osc2PulButton,&filterKeyFollowButton,&unisonButton,&pitchQuantButton,
+    &filterHQButton,&filterBPBlendButton,
+    &lfoSinButton,&lfoSquareButton,&lfoSHButton,&lfoOsc1Button,&lfoOsc2Button,&lfoFilterButton,
+    &lfoPwm1Button,&lfoPwm2Button,
+    &bendRangeButton,&bendOsc2OnlyButton,
+        &fourPoleButton,&asPlayedAllocButton,&midiLearnButton,&midiUnlearnButton}){
+            if (*btn){
+                (*btn)->deleteAllChildren();
+                delete *btn;
+                *btn = nullptr;
+            }
+        }
+         for (auto list :{
+        &voiceSwitch,&legatoSwitch}){
+            if (*list){
+                (*list)->deleteAllChildren();
+                delete *list;
+                *list = nullptr;
+            }
+        }
+     */
 }
 
 TooglableButton* ObxdAudioProcessorEditor::addButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name)
@@ -446,7 +508,9 @@ void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
 			const File newSkinFolder = skins.getUnchecked(result);
 			processor.setCurrentSkinFolder(newSkinFolder.getFileName());
 
-			rebuildComponents (processor);
+			//rebuildComponents (processor);
+            clean();
+            loadSkin(processor);
 		}
 		else if (result >= (bankStart + 1) && result <= (bankStart + banks.size()))
 		{

@@ -38,7 +38,9 @@ public:
 		h2 = height / 2;
 		this->setClickingTogglesState (true);
 	}
-
+    ~TooglableButton() override{
+        
+    };
 // Source: https://git.iem.at/audioplugins/IEMPluginSuite/-/blob/master/resources/customComponents/ReverseSlider.h
 public:
     class ToggleAttachment  : public juce::AudioProcessorValueTreeState::ButtonAttachment

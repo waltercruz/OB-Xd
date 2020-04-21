@@ -32,7 +32,8 @@ class ObxdAudioProcessorEditor  : public AudioProcessorEditor,
 public:
     ObxdAudioProcessorEditor(ObxdAudioProcessor& ownerFilter);
     ~ObxdAudioProcessorEditor();
-
+    
+    
 	void mouseUp (const MouseEvent& e) override;
 	void paint (Graphics& g) override;
 
@@ -45,31 +46,32 @@ private:
 	TooglableButton* addButton (int x, int y, ObxdAudioProcessor& filter, int parameter, String name);
 	ButtonList* addList(int x, int y, int w, int h, ObxdAudioProcessor& filter, int parameter, String name, Image img);
     //Menu* addMenu (int x, int y);
-
+    void clean();
+    
 	void rebuildComponents (ObxdAudioProcessor&);
-
+    void loadSkin(ObxdAudioProcessor&);
 	//==============================================================================
     ObxdAudioProcessor& processor;
 
 	//==============================================================================
-	Knob* cutoffKnob,*resonanceKnob,*osc1PitchKnob,*osc2PitchKnob,*osc2DetuneKnob,*volumeKnob,
-		*portamentoKnob,*voiceDetuneKnob,*filterEnvelopeAmtKnob,*pulseWidthKnob,*xmodKnob,*multimodeKnob,*attackKnob,*decayKnob,*sustainKnob,*releaseKnob,
-		*fattackKnob,*fdecayKnob,*fsustainKnob,*freleaseKnob,*osc1MixKnob,*osc2MixKnob,*noiseMixKnob,
-		*filterDetuneKnob,*envelopeDetuneKnob,*portamentoDetuneKnob,
-		*tuneKnob,
-		*lfoFrequencyKnob,*lfoAmt1Knob,*lfoAmt2Knob,
-		*pan1Knob,*pan2Knob,*pan3Knob,*pan4Knob,*pan5Knob,*pan6Knob,*pan7Knob,*pan8Knob,
-		*brightnessKnob,*envPitchModKnob,
-		*bendLfoRateKnob,*veloAmpEnvKnob,*veloFltEnvKnob,*transposeKnob;
+	Knob* cutoffKnob=nullptr, *resonanceKnob=nullptr, *osc1PitchKnob=nullptr, *osc2PitchKnob=nullptr, *osc2DetuneKnob=nullptr, *volumeKnob,
+        *portamentoKnob=nullptr, *voiceDetuneKnob=nullptr, *filterEnvelopeAmtKnob=nullptr, *pulseWidthKnob=nullptr, *xmodKnob=nullptr, *multimodeKnob=nullptr, *attackKnob=nullptr, *decayKnob=nullptr, *sustainKnob=nullptr, *releaseKnob=nullptr,
+        *fattackKnob=nullptr, *fdecayKnob=nullptr, *fsustainKnob=nullptr, *freleaseKnob=nullptr, *osc1MixKnob=nullptr, *osc2MixKnob=nullptr, *noiseMixKnob=nullptr,
+        *filterDetuneKnob=nullptr, *envelopeDetuneKnob=nullptr, *portamentoDetuneKnob=nullptr,
+        *tuneKnob=nullptr,
+        *lfoFrequencyKnob=nullptr, *lfoAmt1Knob=nullptr, *lfoAmt2Knob=nullptr,
+        *pan1Knob=nullptr, *pan2Knob=nullptr, *pan3Knob=nullptr, *pan4Knob=nullptr, *pan5Knob=nullptr, *pan6Knob=nullptr, *pan7Knob=nullptr, *pan8Knob=nullptr,
+        *brightnessKnob=nullptr, *envPitchModKnob=nullptr,
+        *bendLfoRateKnob=nullptr, *veloAmpEnvKnob=nullptr, *veloFltEnvKnob=nullptr, *transposeKnob=nullptr;
 
-	TooglableButton* hardSyncButton,*osc1SawButton,*osc2SawButton,*osc1PulButton,*osc2PulButton,*filterKeyFollowButton,*unisonButton,*pitchQuantButton,
-		*filterHQButton,*filterBPBlendButton,
-		*lfoSinButton,*lfoSquareButton,*lfoSHButton,*lfoOsc1Button,*lfoOsc2Button,*lfoFilterButton,
-		*lfoPwm1Button,*lfoPwm2Button,
-		*bendRangeButton,*bendOsc2OnlyButton,
-		*fourPoleButton,*asPlayedAllocButton,*midiLearnButton,*midiUnlearnButton;
+    TooglableButton* hardSyncButton=nullptr, *osc1SawButton=nullptr, *osc2SawButton=nullptr, *osc1PulButton=nullptr, *osc2PulButton=nullptr, *filterKeyFollowButton=nullptr, *unisonButton=nullptr, *pitchQuantButton=nullptr,
+        *filterHQButton=nullptr, *filterBPBlendButton=nullptr,
+        *lfoSinButton=nullptr, *lfoSquareButton=nullptr, *lfoSHButton=nullptr, *lfoOsc1Button=nullptr, *lfoOsc2Button=nullptr, *lfoFilterButton,
+        *lfoPwm1Button=nullptr, *lfoPwm2Button=nullptr,
+        *bendRangeButton=nullptr, *bendOsc2OnlyButton=nullptr,
+        *fourPoleButton=nullptr, *asPlayedAllocButton=nullptr, *midiLearnButton=nullptr, *midiUnlearnButton=nullptr;
 
-	ButtonList *voiceSwitch,*legatoSwitch;
+	ButtonList *voiceSwitch = nullptr,*legatoSwitch = nullptr;
 
 	File skinFolder;
     
