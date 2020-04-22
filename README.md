@@ -7,8 +7,7 @@ OB-Xd is based on the Oberheim OB-X. It attempts to recreate its sound and behav
 
 While not copying originals, some of the features were taken to a better point. Continuous blendable multimode filter (HP-Notch(BP)-HP in 12 dB mode and 4-1 pole in 24 dB mode). Also, like many synths of the OB-X's generation, the OB-Xd has no internal effects so its sounds and textures can be greatly enhanced by the use of additional processing like chorus, reverb, delay, etc.
 
-Thanks to 2Dat for the original OB-Xd and Soshi Studio for giving the rights to continue this wonderful product.
-Also thanks to [KVR artist creating some amazing skins!](https://www.kvraudio.com/forum/viewtopic.php?f=1&t=471926)
+Thanks to 2Dat for the original OB-Xd and Soshi Studio for giving the rights to continue this wonderful product. Also thanks to [KVR artists for creating some amazing skins!](https://www.kvraudio.com/forum/viewtopic.php?f=1&t=471926)
 
 # Binaries
 
@@ -18,4 +17,4 @@ Also thanks to [KVR artist creating some amazing skins!](https://www.kvraudio.co
 
 # Building
 
-Source is compiled with [JUCE 5.4.3](https://github.com/juce-framework/JUCE/archive/5.4.3.zip), VST2 SDK and VST3 SDK. Since VST2 is only possible to use with a Steinberg permission not possible to obtain right now, it's recommended to disable VST (legacy) prior to generating the exporters with Projucer.
+Source is compiled with [JUCE 5.4.3](https://github.com/juce-framework/JUCE/archive/5.4.3.zip), VST2 SDK and VST3 SDK. Since VST2 is only possible to use with a Steinberg permission not possible to obtain right now, it's recommended to disable VST (legacy) prior to generating compiler files with Projucer.
