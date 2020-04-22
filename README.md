@@ -10,7 +10,7 @@ While not copying originals, some of the features were taken to a better point. 
 Thanks to 2Dat for the original OB-Xd and Soshi Studio for giving the rights to continue this wonderful product.
 Also thanks to [KVR artist creating some amazing skins!](https://www.kvraudio.com/forum/viewtopic.php?f=1&t=471926)
 
-# Binaries download
+# Binaries
 
 **Release Builds** https://www.discodsp.com/obxd/
 
