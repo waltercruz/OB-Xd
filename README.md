@@ -12,9 +12,9 @@ Also thanks to [KVR artist creating some amazing skins!](https://www.kvraudio.co
 
 # Binaries
 
-**Release Builds** https://www.discodsp.com/obxd/
+**Release** https://www.discodsp.com/obxd/
 
-**Nightly Builds**  https://www.discodsp.net/obxd-nightly/
+**Nightly**  https://www.discodsp.net/obxd-nightly/
 
 # Building
 
