@@ -17,4 +17,4 @@ Thanks to 2Dat for the original OB-Xd and Soshi Studio for giving the rights to 
 
 # Building
 
-Source is compiled with [JUCE 5.4.3](https://github.com/juce-framework/JUCE/archive/5.4.3.zip), VST2 SDK and VST3 SDK. Since VST2 is only possible to use with a Steinberg permission not possible to obtain right now, it's recommended to disable VST (legacy) prior to generating compiler files with Projucer.
+Source is compiled with [JUCE 5.4.3](https://github.com/juce-framework/JUCE/archive/5.4.3.zip) and VST3 SDK.
