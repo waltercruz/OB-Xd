@@ -593,12 +593,12 @@ File ObxdAudioProcessor::getCurrentBankFile() const
 File ObxdAudioProcessor::getDocumentFolder() const
 {
 	File folder = File::getSpecialLocation(File::userDocumentsDirectory).getChildFile("discoDSP").getChildFile("OB-Xd");
-  
+/*
     if (! folder.exists())
     {
         NativeMessageBox::showMessageBox(AlertWindow::WarningIcon, "Error", "Documents > discoDSP > OB-Xd folder not found.");
     }
-    
+ */
 	if (folder.isSymbolicLink())
 		folder = folder.getLinkedTarget();
 	return folder;

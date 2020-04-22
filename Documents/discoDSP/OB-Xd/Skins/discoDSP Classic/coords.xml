@@ -14,8 +14,8 @@
 	<VALUE NAME="unisonButton" x="125" y="251" w="28" h="35"/>   
 	<VALUE NAME="portamentoKnob" x="175" y="241" d="40"/>  
 
-	<VALUE NAME="voiceSwitch" x="172" y="310" w="38" h="32"/>
-	<VALUE NAME="legatoSwitch" x="66" y="310" w="95" h="32"/>
+	<VALUE NAME="voiceSwitch" x="172" y="311" w="38" h="32"/>
+	<VALUE NAME="legatoSwitch" x="66" y="311" w="89" h="32"/>
  
 	<VALUE NAME="asPlayedAllocButton" x="65" y="372" d="32" w="28" h="35"/>  
 	<VALUE NAME="midiLearnButton" x="126" y="372" d="40" w="28" h="35"/>  

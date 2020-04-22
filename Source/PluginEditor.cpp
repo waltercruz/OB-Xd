@@ -302,7 +302,7 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
     // deleteAllChildren();  // WATCH OUT!
 
 		setSize (1440, 450);
-		cutoffKnob = addKnob (893, 77, 48, ownerFilter, CUTOFF, "Cutoff", 0.4);
+/*		cutoffKnob = addKnob (893, 77, 48, ownerFilter, CUTOFF, "Cutoff", 0.4);
 		resonanceKnob = addKnob (990, 77, 48, ownerFilter, RESONANCE, "Resonance", 0);
 		filterEnvelopeAmtKnob = addKnob (1088, 77, 48, ownerFilter, ENVELOPE_AMT, "Envelope", 0);
 		multimodeKnob = addKnob (990, 167, 48, ownerFilter, MULTIMODE, "Multimode", 0.5);
@@ -415,7 +415,7 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
     buttonListAttachments.add (new ButtonList::ButtonListAttachment (ownerFilter.getPluginState(),
                                                                      ownerFilter.getEngineParameterId (LEGATOMODE),
                                                                      *legatoSwitch));
-
+*/
 	ownerFilter.addChangeListener (this);
 	repaint();
 }

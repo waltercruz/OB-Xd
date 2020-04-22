@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="mxW328" name="OB-Xd" projectType="audioplug" version="2.0.0"
               bundleIdentifier="com.discoDSP.Obxd" includeBinaryInAppConfig="1"
-              buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="0"
+              buildVST="0" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="0"
               pluginName="OB-Xd" pluginDesc="Emulation of famous OB-X, OB-Xa and OB-8 synths"
               pluginManufacturer="Datsounds" pluginManufacturerCode="Dats"
               pluginCode="Obxd" pluginChannelConfigs="{0, 2}" pluginIsSynth="1"
@@ -10,18 +10,14 @@
               pluginEditorRequiresKeys="0" pluginAUExportPrefix="" pluginRTASCategory="2048"
               aaxIdentifier="" pluginAAXCategory="" jucerVersion="5.4.4" companyName="2Dat"
               companyWebsite="https://www.discodsp.com/" companyEmail="" buildAUv3="0"
-              pluginIsMidiEffectPlugin="0" pluginFormats="buildAU,buildStandalone,buildVST,buildVST3"
+              pluginIsMidiEffectPlugin="0" pluginFormats="buildAU,buildStandalone,buildVST3"
               pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
               buildStandalone="1" enableIAA="0">
   <MAINGROUP id="NZ3n4V" name="OB-Xd">
     <GROUP id="{90740217-84AB-FD0D-FBC4-CA9EA2C68D5E}" name="Source">
       <GROUP id="{5F0B15D1-4D92-B2FF-5904-9CF4C3CE645F}" name="Images">
         <FILE id="nnY63W" name="appicon.png" compile="0" resource="1" file="Source/Images/appicon.png"/>
-        <FILE id="IV8Ubu" name="button.png" compile="0" resource="1" file="Source/Images/button.png"/>
-        <FILE id="eMxHLl" name="knob.png" compile="0" resource="1" file="Source/Images/knob.png"/>
-        <FILE id="syMyon" name="legato.png" compile="0" resource="1" file="Source/Images/legato.png"/>
         <FILE id="kwaOoZ" name="main.png" compile="0" resource="1" file="Source/Images/main.png"/>
-        <FILE id="UHyt7V" name="voices.png" compile="0" resource="1" file="Source/Images/voices.png"/>
       </GROUP>
       <GROUP id="{6995BDF2-263F-3CA7-8CA4-4E21F325477A}" name="Gui">
         <FILE id="zJoidp" name="ButtonList.h" compile="0" resource="0" file="Source/Gui/ButtonList.h"/>
@@ -64,7 +60,8 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" bigIcon="nnY63W" smallIcon="nnY63W">
+    <XCODE_MAC targetFolder="Builds/MacOSX" bigIcon="nnY63W" smallIcon="nnY63W"
+               vstLegacyFolder="Modules/vstsdk2.4" vst3Folder="Modules/vstsdk3">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="Obxd" stripLocalSymbols="0"
                        osxCompatibility="10.6 SDK" linkTimeOptimisation="0"/>
