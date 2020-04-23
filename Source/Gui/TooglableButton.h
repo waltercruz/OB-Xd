@@ -64,6 +64,7 @@ public:
         void updateToSlider(){
             float val = parameter->getValue();
             //buttonToControl->setValue(parameter->convertFrom0to1(val0to1), NotificationType::dontSendNotification);
+            buttonToControl->setValue(val, NotificationType::dontSendNotification);
         }
         virtual ~ToggleAttachment() = default;
     };

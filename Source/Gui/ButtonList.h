@@ -59,7 +59,7 @@ public:
         */
         void updateToSlider(){
             float val = parameter->getValue();
-            buttonListToControl->setValue(val, NotificationType::dontSendNotification);
+            //buttonListToControl->setValue(val, NotificationType::dontSendNotification);
             //buttonListToControl->setValue(parameter->convertFrom0to1(val0to1), NotificationType::dontSendNotification);
             buttonListToControl->setValue(val, NotificationType::dontSendNotification);
         }
