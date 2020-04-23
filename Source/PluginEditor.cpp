@@ -442,6 +442,18 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
 //==============================================================================
 void ObxdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source)
 {
+    
+    for (int i = 0; i < knobAttachments.size(); i++){
+        knobAttachments[i]->updateToSlider();
+    }
+    
+    for (int i = 0; i < toggleAttachments.size(); i++){
+        toggleAttachments[i]->updateToSlider();
+    }
+    
+    for (int i = 0; i < buttonListAttachments.size(); i++){
+        buttonListAttachments[i]->updateToSlider();
+    }
     repaint();
 }
 

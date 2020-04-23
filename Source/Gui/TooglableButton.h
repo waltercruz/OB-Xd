@@ -45,20 +45,26 @@ public:
 public:
     class ToggleAttachment  : public juce::AudioProcessorValueTreeState::ButtonAttachment
     {
+        RangedAudioParameter* parameter = nullptr;
+        TooglableButton* buttonToControl = nullptr;
     public:
         ToggleAttachment (juce::AudioProcessorValueTreeState& stateToControl,
                           const juce::String& parameterID,
-                          TooglableButton& buttonToControl) : AudioProcessorValueTreeState::ButtonAttachment (stateToControl, parameterID, buttonToControl)
+                          TooglableButton& buttonToControl) : AudioProcessorValueTreeState::ButtonAttachment (stateToControl, parameterID, buttonToControl), buttonToControl(&buttonToControl)
         {
-            buttonToControl.setParameter (stateToControl.getParameter (parameterID));
+            parameter = stateToControl.getParameter (parameterID);
+            buttonToControl.setParameter (parameter);
         }
-        
+        /*
         ToggleAttachment (juce::AudioProcessorValueTreeState& stateToControl,
                           const juce::String& parameterID,
                           Button& buttonToControl) : AudioProcessorValueTreeState::ButtonAttachment (stateToControl, parameterID, buttonToControl)
         {
+        }*/
+        void updateToSlider(){
+            float val = parameter->getValue();
+            //buttonToControl->setValue(parameter->convertFrom0to1(val0to1), NotificationType::dontSendNotification);
         }
-        
         virtual ~ToggleAttachment() = default;
     };
     

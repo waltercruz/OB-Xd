@@ -415,6 +415,7 @@ void ObxdAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 
 		setCurrentProgram(xmlState->getIntAttribute(S("currentProgram"), 0));
 
+        sendChangeMessage();
 #if JUCE_VERSION <= JUCE_543
 		delete xmlState;
 #endif
@@ -443,7 +444,8 @@ void  ObxdAudioProcessor::setCurrentProgramStateInformation(const void* data, in
 		programs.currentProgramPtr->name = e->getStringAttribute(S("programName"), S("Default"));
 
 		setCurrentProgram(programs.currentProgram);
-
+        
+        sendChangeMessage();
 #if JUCE_VERSION <= JUCE_543
 		delete e;
 #endif
@@ -740,6 +742,8 @@ void ObxdAudioProcessor::setEngineParameterValue (int index, float newValue)
     }
     
     programs.currentProgramPtr->values[index] = newValue;
+    apvtState.getParameter(getEngineParameterId(index))->setValue(newValue);
+    
     
     switch (index)
     {

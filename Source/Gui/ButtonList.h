@@ -40,18 +40,28 @@ public:
 public:
     class ButtonListAttachment  : public juce::AudioProcessorValueTreeState::ComboBoxAttachment
     {
+        RangedAudioParameter* parameter = nullptr;
+        ButtonList* buttonListToControl = nullptr;
     public:
         ButtonListAttachment (juce::AudioProcessorValueTreeState& stateToControl,
                               const juce::String& parameterID,
-                              ButtonList& buttonListToControl) : AudioProcessorValueTreeState::ComboBoxAttachment (stateToControl, parameterID, buttonListToControl)
+                              ButtonList& buttonListToControl) : AudioProcessorValueTreeState::ComboBoxAttachment (stateToControl, parameterID, buttonListToControl), buttonListToControl(&buttonListToControl)
         {
-            buttonListToControl.setParameter (stateToControl.getParameter (parameterID));
+            parameter = stateToControl.getParameter (parameterID);
+            buttonListToControl.setParameter (parameter);
         }
-
+        /*
         ButtonListAttachment (juce::AudioProcessorValueTreeState& stateToControl,
                               const juce::String& parameterID,
                               ComboBox& buttonListToControl) : AudioProcessorValueTreeState::ComboBoxAttachment (stateToControl, parameterID, buttonListToControl)
         {
+        }
+        */
+        void updateToSlider(){
+            float val = parameter->getValue();
+            buttonListToControl->setValue(val, NotificationType::dontSendNotification);
+            //buttonListToControl->setValue(parameter->convertFrom0to1(val0to1), NotificationType::dontSendNotification);
+            buttonListToControl->setValue(val, NotificationType::dontSendNotification);
         }
 
         virtual ~ButtonListAttachment() = default;

@@ -46,24 +46,35 @@ public:
 public:
     class KnobAttachment  : public juce::AudioProcessorValueTreeState::SliderAttachment
     {
+        RangedAudioParameter* parameter = nullptr;
+        Knob* sliderToControl = nullptr;
     public:
         KnobAttachment (juce::AudioProcessorValueTreeState& stateToControl,
                         const juce::String& parameterID,
-                        Knob& sliderToControl) : AudioProcessorValueTreeState::SliderAttachment (stateToControl, parameterID, sliderToControl)
+                        Knob& sliderToControl) : AudioProcessorValueTreeState::SliderAttachment (stateToControl, parameterID, sliderToControl), sliderToControl(&sliderToControl)
         {
-            sliderToControl.setParameter (stateToControl.getParameter (parameterID));
+            parameter = stateToControl.getParameter (parameterID);
+            sliderToControl.setParameter (parameter);
         }
         
-        KnobAttachment (juce::AudioProcessorValueTreeState& stateToControl,
+        
+        /*KnobAttachment (juce::AudioProcessorValueTreeState& stateToControl,
                         const juce::String& parameterID,
                         Slider& sliderToControl) : AudioProcessorValueTreeState::SliderAttachment (stateToControl, parameterID, sliderToControl)
         {
+        }*/
+        
+        void updateToSlider(){
+            float val = parameter->getValue();
+            //sliderToControl->setValue(parameter->convertFrom0to1(val0to1));
+            sliderToControl->setValue(val, NotificationType::dontSendNotification);
+            DBG(" Slider: " << sliderToControl->getName() << " " << sliderToControl->getValue() << "  Parameter: "<< " " << parameter->getValue());
         }
         
         virtual ~KnobAttachment() = default;
     };
     
-    void setParameter (const AudioProcessorParameter* p)
+    void setParameter (AudioProcessorParameter* p)
     {
         if (parameter == p)
             return;
@@ -84,5 +95,5 @@ private:
 	Image kni;
 	int fh, numFr;
 	int w2, h2;
-    const AudioProcessorParameter* parameter {nullptr};
+    AudioProcessorParameter* parameter {nullptr};
 };
