@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <PROPERTIES>
 	<VALUE NAME="guisize" x="1087" y="442"/>
+	<VALUE NAME="menu" x="28" y="30" d="20"/>
 
 	<!------- MASTER ----->
 

@@ -26,6 +26,7 @@ ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFil
 }
 
 void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
+    imageButtons.clear();
     ownerFilter.removeChangeListener (this);
     //File coords("/Users/jimmy/Downloads/coords.xml");
     skinFolder = ownerFilter.getCurrentSkinFolder();
@@ -151,6 +152,11 @@ void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
                         //if (legatoSwitch) legatoSwitch->setVisible(false);
                         legatoSwitch = addList (x, y, w, h, ownerFilter, LEGATOMODE, "Legato", ImageCache::getFromFile(skinFolder.getChildFile("legato.png"))); }
                     
+                    if (name == "menu")
+                    {
+                        addMenu (x, y, d,
+                                 ImageCache::getFromFile (skinFolder.getChildFile ("menu.png")));
+                    }
                     //DBG(" Name: " << name << " X: " <<x <<" Y: "<<y);
                 }
             }
@@ -163,7 +169,7 @@ void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
         for (int i = 1; i <= 32; ++i)
         {
             voiceSwitch->addChoice (String (i));
-            voiceSwitch ->setValue(ownerFilter.getParameter(VOICE_COUNT),dontSendNotification);
+//            voiceSwitch ->setValue(ownerFilter.getParameter(VOICE_COUNT),dontSendNotification);
         }
     }
     if (legatoSwitch) {
@@ -171,8 +177,18 @@ void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
         legatoSwitch->addChoice ("Keep Filter Envelope");
         legatoSwitch->addChoice ("Keep Amplitude Envelope");
         legatoSwitch->addChoice ("Retrig");
-        legatoSwitch ->setValue(ownerFilter.getParameter(LEGATOMODE),dontSendNotification);
+//        legatoSwitch ->setValue(ownerFilter.getParameter(LEGATOMODE),dontSendNotification);
     }
+    buttonListAttachments.add (new ButtonList::ButtonListAttachment (ownerFilter.getPluginState(),
+                                                                     ownerFilter.getEngineParameterId (VOICE_COUNT),
+                                                                     *voiceSwitch));
+    
+    buttonListAttachments.add (new ButtonList::ButtonListAttachment (ownerFilter.getPluginState(),
+                                                                     ownerFilter.getEngineParameterId (LEGATOMODE),
+                                                                     *legatoSwitch));
+    
+    // Testing: Please delete the line below when coords.xml is updated with menu
+//    addMenu (10, 10, 40, ImageCache::getFromFile (skinFolder.getChildFile ("menu.png")));
     
     ownerFilter.addChangeListener (this);
     repaint();
@@ -290,6 +306,28 @@ TooglableButton* ObxdAudioProcessorEditor::addButton (int x, int y, int w, int h
                                                                   *button));
     
 	return button;
+}
+
+void ObxdAudioProcessorEditor::addMenu (int x, int y, int d, const Image& image)
+{
+    ImageButton* imageButton;
+    imageButtons.add (imageButton = new ImageButton());
+    imageButton->setBounds (x, y, d, d);
+    imageButton->setImages (false,
+                            true,
+                            true,
+                            image,
+                            1.0f, // menu transparency
+                            Colour(),
+                            image,
+                            1.0f, // menu hover transparency
+                            Colour(),
+                            image,
+                            0.3f, // menu click transparency
+                            Colour());
+    
+    imageButton->addListener (this);
+    addAndMakeVisible (imageButton);
 }
 
 void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilter)
@@ -420,9 +458,116 @@ void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilte
 	repaint();
 }
 
-//void ObxdAudioProcessorEditor::buttonClicked(Button * b)
-//{
-//}
+void ObxdAudioProcessorEditor::createMenu (const Point<int> pos)
+{
+    PopupMenu menu;
+    PopupMenu progMenu;
+    PopupMenu bankMenu;
+    PopupMenu skinMenu;
+
+    
+    Array<File> skins;
+    const Array<File>& banks = processor.getBankFiles();
+    
+    int progStart = 2000;
+    
+    {
+        for (int i = 0; i < processor.getNumPrograms(); ++i)
+        {
+            progMenu.addItem (i + progStart + 1,
+                              processor.getProgramName (i),
+                              true,
+                              i == processor.getCurrentProgram());
+        }
+        
+        menu.addSubMenu("Programs", progMenu);
+    }
+    
+    int bankStart = 1000;
+    
+    {
+        const String currentBank = processor.getCurrentBankFile().getFileName();
+        
+        for (int i = 0; i < banks.size(); ++i)
+        {
+            const File bank = banks.getUnchecked (i);
+            bankMenu.addItem (i + bankStart + 1,
+                              bank.getFileNameWithoutExtension(),
+                              true,
+                              bank.getFileName() == currentBank);
+        }
+        
+        menu.addSubMenu ("Banks", bankMenu);
+    }
+    
+    int skinStart = 0;
+    
+    {
+        DirectoryIterator it (processor.getSkinFolder(), false, "*", File::findDirectories);
+        
+        while (it.next())
+        {
+            skins.addUsingDefaultSort (it.getFile());
+        }
+        
+        for (int i = 0; i < skins.size(); ++i)
+        {
+            const File skin = skins.getUnchecked (i);
+            skinMenu.addItem (i + skinStart + 1,
+                              skin.getFileName(),
+                              true,
+                              skin.getFileName() == skinFolder.getFileName());
+        }
+        
+        menu.addSubMenu ("Skins", skinMenu);
+    }
+    
+    //const Point<int> pos = e.getMouseDownScreenPosition();
+    
+    int result = menu.showAt (Rectangle<int> (pos.getX(), pos.getY(), 1, 1));
+    
+    if (result >= (skinStart + 1) && result <= (skinStart + skins.size()))
+    {
+        result -= 1;
+        result -= skinStart;
+        
+        const File newSkinFolder = skins.getUnchecked (result);
+        processor.setCurrentSkinFolder (newSkinFolder.getFileName());
+        
+        //rebuildComponents (processor);
+        clean();
+        loadSkin (processor);
+    }
+    else if (result >= (bankStart + 1) && result <= (bankStart + banks.size()))
+    {
+        result -= 1;
+        result -= bankStart;
+        
+        const File bankFile = banks.getUnchecked(result);
+        processor.loadFromFXBFile (bankFile);
+    }
+    else if (result >= (progStart + 1) && result <= (progStart + processor.getNumPrograms()))
+    {
+        result -= 1;
+        result -= progStart;
+        processor.setCurrentProgram (result);
+    }
+}
+
+void ObxdAudioProcessorEditor::buttonClicked (Button* b)
+{
+    auto imageButton = dynamic_cast<ImageButton*> (b);
+    
+    if (imageButton == imageButtons[0])
+    {
+        auto x   = imageButton->getScreenX();
+        auto y   = imageButton->getScreenY();
+        auto dx  = imageButton->getWidth();
+        auto pos = Point<int> (x, y + dx);
+
+        createMenu (pos);
+    }
+}
 
 //void ObxdAudioProcessorEditor::comboBoxChanged (ComboBox* cb)
 //{
@@ -457,87 +602,88 @@ void ObxdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source
     repaint();
 }
 
-void ObxdAudioProcessorEditor::mouseUp(const MouseEvent& e)
+void ObxdAudioProcessorEditor::mouseUp (const MouseEvent& e)
 {
 	if (e.mods.isRightButtonDown() || e.mods.isCommandDown())
 	{
-		PopupMenu menu;
-		PopupMenu skinMenu;
-		PopupMenu bankMenu;
-		PopupMenu progMenu;
-
-		Array<File> skins;
-		const Array<File>& banks = processor.getBankFiles();
-
-		int skinStart = 0;
-		{
-			DirectoryIterator it(processor.getSkinFolder(), false, "*", File::findDirectories);
-			while (it.next())
-			{
-				skins.addUsingDefaultSort(it.getFile());
-			}
-
-			for (int i = 0; i < skins.size(); ++i)
-			{
-				const File skin = skins.getUnchecked(i);
-				skinMenu.addItem(i + skinStart + 1, skin.getFileName(), true, skin.getFileName() == skinFolder.getFileName());
-			}
-
-			menu.addSubMenu("Skins", skinMenu);
-		}
-
-		int bankStart = 1000;
-		{
-			const String currentBank = processor.getCurrentBankFile().getFileName();
-
-			for (int i = 0; i < banks.size(); ++i)
-			{
-				const File bank = banks.getUnchecked(i);
-				bankMenu.addItem(i + bankStart + 1, bank.getFileNameWithoutExtension(), true, bank.getFileName() == currentBank);
-			}
-
-			menu.addSubMenu("Banks", bankMenu);
-		}
-
-		int progStart = 2000;
-		{
-			for (int i = 0; i < processor.getNumPrograms(); ++i)
-			{
-				progMenu.addItem(i + progStart + 1, processor.getProgramName(i), true, i == processor.getCurrentProgram());
-			}
-
-			menu.addSubMenu("Programs", progMenu);
-		}
-
-		const Point<int> pos = e.getMouseDownScreenPosition();
-
-		int result = menu.showAt(Rectangle<int>(pos.getX(), pos.getY(), 1, 1));
-		if (result >= (skinStart + 1) && result <= (skinStart + skins.size()))
-		{
-			result -= 1;
-			result -= skinStart;
-
-			const File newSkinFolder = skins.getUnchecked(result);
-			processor.setCurrentSkinFolder(newSkinFolder.getFileName());
-
-			//rebuildComponents (processor);
-            clean();
-            loadSkin(processor);
-		}
-		else if (result >= (bankStart + 1) && result <= (bankStart + banks.size()))
-		{
-			result -= 1;
-			result -= bankStart;
-
-			const File bankFile = banks.getUnchecked(result);
-			processor.loadFromFXBFile (bankFile);
-		}
-		else if (result >= (progStart + 1) && result <= (progStart + processor.getNumPrograms()))
-		{
-			result -= 1;
-			result -= progStart;
-			processor.setCurrentProgram (result);
-		}
+        createMenu (e.getMouseDownScreenPosition());
+//        PopupMenu menu;
+//        PopupMenu skinMenu;
+//        PopupMenu bankMenu;
+//        PopupMenu progMenu;
+//
+//        Array<File> skins;
+//        const Array<File>& banks = processor.getBankFiles();
+//
+//        int skinStart = 0;
+//        {
+//            DirectoryIterator it(processor.getSkinFolder(), false, "*", File::findDirectories);
+//            while (it.next())
+//            {
+//                skins.addUsingDefaultSort(it.getFile());
+//            }
+//
+//            for (int i = 0; i < skins.size(); ++i)
+//            {
+//                const File skin = skins.getUnchecked(i);
+//                skinMenu.addItem(i + skinStart + 1, skin.getFileName(), true, skin.getFileName() == skinFolder.getFileName());
+//            }
+//
+//            menu.addSubMenu("Skins", skinMenu);
+//        }
+//
+//        int bankStart = 1000;
+//        {
+//            const String currentBank = processor.getCurrentBankFile().getFileName();
+//
+//            for (int i = 0; i < banks.size(); ++i)
+//            {
+//                const File bank = banks.getUnchecked(i);
+//                bankMenu.addItem(i + bankStart + 1, bank.getFileNameWithoutExtension(), true, bank.getFileName() == currentBank);
+//            }
+//
+//            menu.addSubMenu("Banks", bankMenu);
+//        }
+//
+//        int progStart = 2000;
+//        {
+//            for (int i = 0; i < processor.getNumPrograms(); ++i)
+//            {
+//                progMenu.addItem(i + progStart + 1, processor.getProgramName(i), true, i == processor.getCurrentProgram());
+//            }
+//
+//            menu.addSubMenu("Programs", progMenu);
+//        }
+//
+//        const Point<int> pos = e.getMouseDownScreenPosition();
+//
+//        int result = menu.showAt(Rectangle<int>(pos.getX(), pos.getY(), 1, 1));
+//        if (result >= (skinStart + 1) && result <= (skinStart + skins.size()))
+//        {
+//            result -= 1;
+//            result -= skinStart;
+//
+//            const File newSkinFolder = skins.getUnchecked(result);
+//            processor.setCurrentSkinFolder(newSkinFolder.getFileName());
+//
+//            //rebuildComponents (processor);
+//            clean();
+//            loadSkin(processor);
+//        }
+//        else if (result >= (bankStart + 1) && result <= (bankStart + banks.size()))
+//        {
+//            result -= 1;
+//            result -= bankStart;
+//
+//            const File bankFile = banks.getUnchecked(result);
+//            processor.loadFromFXBFile (bankFile);
+//        }
+//        else if (result >= (progStart + 1) && result <= (progStart + processor.getNumPrograms()))
+//        {
+//            result -= 1;
+//            result -= progStart;
+//            processor.setCurrentProgram (result);
+//        }
 	}
 }
 

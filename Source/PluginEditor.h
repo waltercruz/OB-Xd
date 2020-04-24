@@ -22,12 +22,12 @@
 //==============================================================================
 /**
 */
-class ObxdAudioProcessorEditor  : public AudioProcessorEditor,
-//                                  public AudioProcessorListener,
-	                              public ChangeListener//,
-//                                  public Slider::Listener,
-//                                  public Button::Listener,
-//                                  public ComboBox::Listener
+class ObxdAudioProcessorEditor  : public AudioProcessorEditor
+//                                  , public AudioProcessorListener
+                                , public ChangeListener
+//                                  , public Slider::Listener
+                                , public Button::Listener
+//                                  , public ComboBox::Listener
 {
 public:
     ObxdAudioProcessorEditor(ObxdAudioProcessor& ownerFilter);
@@ -39,13 +39,15 @@ public:
 
 	//==============================================================================
 	void changeListenerCallback (ChangeBroadcaster* source) override;
+    void buttonClicked (Button *) override;
 
 private:
 	Knob* addKnob (int x, int y, int d, ObxdAudioProcessor& filter, int parameter, String name, float defval);
 	void placeLabel (int x, int y, String text);
 	TooglableButton* addButton (int x, int y, int w, int h, ObxdAudioProcessor& filter, int parameter, String name);
 	ButtonList* addList(int x, int y, int w, int h, ObxdAudioProcessor& filter, int parameter, String name, Image img);
-    //Menu* addMenu (int x, int y);
+    void addMenu (int x, int y, int d, const Image&);
+    void createMenu (const Point<int>);
     void clean();
     
 	void rebuildComponents (ObxdAudioProcessor&);
@@ -133,6 +135,8 @@ private:
     OwnedArray<Knob::KnobAttachment>              knobAttachments;
     OwnedArray<TooglableButton::ToggleAttachment> toggleAttachments;
     OwnedArray<ButtonList::ButtonListAttachment>  buttonListAttachments;
+    
+    OwnedArray<ImageButton> imageButtons;
 };
 
 #endif  // PLUGINEDITOR_H_INCLUDED
