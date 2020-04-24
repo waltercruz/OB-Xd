@@ -17,11 +17,7 @@ ObxdAudioProcessorEditor::ObxdAudioProcessorEditor (ObxdAudioProcessor& ownerFil
 	: AudioProcessorEditor (&ownerFilter), processor (ownerFilter)
 {
     skinFolder = ownerFilter.getCurrentSkinFolder();
-    
     loadSkin(processor);
-	//rebuildComponents (processor);
-    //
-    //clean();
     repaint();
 }
 
@@ -157,6 +153,7 @@ void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
                         addMenu (x, y, d,
                                  ImageCache::getFromFile (skinFolder.getChildFile ("menu.png")));
                     }
+                    
                     //DBG(" Name: " << name << " X: " <<x <<" Y: "<<y);
                 }
             }
@@ -169,7 +166,6 @@ void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
         for (int i = 1; i <= 32; ++i)
         {
             voiceSwitch->addChoice (String (i));
-//            voiceSwitch ->setValue(ownerFilter.getParameter(VOICE_COUNT),dontSendNotification);
         }
     }
     if (legatoSwitch) {
@@ -177,7 +173,6 @@ void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
         legatoSwitch->addChoice ("Keep Filter Envelope");
         legatoSwitch->addChoice ("Keep Amplitude Envelope");
         legatoSwitch->addChoice ("Retrig");
-//        legatoSwitch ->setValue(ownerFilter.getParameter(LEGATOMODE),dontSendNotification);
     }
     buttonListAttachments.add (new ButtonList::ButtonListAttachment (ownerFilter.getPluginState(),
                                                                      ownerFilter.getEngineParameterId (VOICE_COUNT),
@@ -186,9 +181,6 @@ void ObxdAudioProcessorEditor::loadSkin(ObxdAudioProcessor& ownerFilter){
     buttonListAttachments.add (new ButtonList::ButtonListAttachment (ownerFilter.getPluginState(),
                                                                      ownerFilter.getEngineParameterId (LEGATOMODE),
                                                                      *legatoSwitch));
-    
-    // Testing: Please delete the line below when coords.xml is updated with menu
-//    addMenu (10, 10, 40, ImageCache::getFromFile (skinFolder.getChildFile ("menu.png")));
     
     ownerFilter.addChangeListener (this);
     repaint();
@@ -213,9 +205,7 @@ ButtonList* ObxdAudioProcessorEditor::addList (int x, int y, int width, int heig
 {
 	ButtonList *bl = new ButtonList (img, height);
 	bl->setBounds (x, y, width, height);
-	//bl->setValue(filter->getParameter(parameter),dontSendNotification);
 	addAndMakeVisible (bl);
-//    bl->addListener (this);
     
 	return bl;
 
@@ -224,21 +214,13 @@ ButtonList* ObxdAudioProcessorEditor::addList (int x, int y, int width, int heig
 Knob* ObxdAudioProcessorEditor::addKnob (int x, int y, int d, ObxdAudioProcessor& filter, int parameter, String /*name*/, float defval)
 {
 	Knob* knob = new Knob (ImageCache::getFromFile(skinFolder.getChildFile("knob.png")), 144);
-	//Label* knobl = new Label();
 	knob->setSliderStyle (Slider::RotaryVerticalDrag);
 	knob->setTextBoxStyle (knob->NoTextBox, true, 0, 0);
 	knob->setRange (0, 1);
 	addAndMakeVisible (knob);
-	//addAndMakeVisible(knobl);
 	knob->setBounds (x, y, d+(d/6), d+(d/6));
-//    knob->setValue (filter.getParameter (parameter), dontSendNotification);
-	//knobl->setJustificationType(Justification::centred);
-	//knobl->setInterceptsMouseClicks(false,true);
-	//knobl->setBounds(x-10,y+40,60,10);
-	//knobl->setText(name,dontSendNotification);
 	knob->setTextBoxIsEditable (false);
 	knob->setDoubleClickReturnValue (true, defval);
-//    knob->addListener (this);
     knobAttachments.add (new Knob::KnobAttachment (filter.getPluginState(),
                                                    
                                                    filter.getEngineParameterId (parameter),
@@ -250,57 +232,14 @@ Knob* ObxdAudioProcessorEditor::addKnob (int x, int y, int d, ObxdAudioProcessor
 
 void ObxdAudioProcessorEditor::clean(){
     this->removeAllChildren();
-    /*
-    //knobAttachments.clearQuick(true);
-    //toggleAttachments.clearQuick(true);
-    //buttonListAttachments.clearQuick(true);
-    
-    for (auto knob : {&cutoffKnob,&resonanceKnob,&osc1PitchKnob,&osc2PitchKnob,&osc2DetuneKnob,&volumeKnob, &portamentoKnob,&voiceDetuneKnob,&filterEnvelopeAmtKnob,&pulseWidthKnob,&xmodKnob,&multimodeKnob,&attackKnob,&decayKnob,&sustainKnob,&releaseKnob,
-    &fattackKnob,&fdecayKnob,&fsustainKnob,&freleaseKnob,&osc1MixKnob,&osc2MixKnob,&noiseMixKnob,
-    &filterDetuneKnob,&envelopeDetuneKnob,&portamentoDetuneKnob,
-    &tuneKnob,
-    &lfoFrequencyKnob,&lfoAmt1Knob,&lfoAmt2Knob,
-    &pan1Knob,&pan2Knob,&pan3Knob,&pan4Knob,&pan5Knob,&pan6Knob,&pan7Knob,&pan8Knob
-    }){
-            if (*knob){
-                (*knob)->deleteAllChildren();
-                delete *knob;
-                *knob = nullptr;
-            }
-        }
-    
-    for (auto btn : {&osc1SawButton,&osc2SawButton,&osc1PulButton,&osc2PulButton,&filterKeyFollowButton,&unisonButton,&pitchQuantButton,
-    &filterHQButton,&filterBPBlendButton,
-    &lfoSinButton,&lfoSquareButton,&lfoSHButton,&lfoOsc1Button,&lfoOsc2Button,&lfoFilterButton,
-    &lfoPwm1Button,&lfoPwm2Button,
-    &bendRangeButton,&bendOsc2OnlyButton,
-        &fourPoleButton,&asPlayedAllocButton,&midiLearnButton,&midiUnlearnButton}){
-            if (*btn){
-                (*btn)->deleteAllChildren();
-                delete *btn;
-                *btn = nullptr;
-            }
-        }
-         for (auto list :{
-        &voiceSwitch,&legatoSwitch}){
-            if (*list){
-                (*list)->deleteAllChildren();
-                delete *list;
-                *list = nullptr;
-            }
-        }
-     */
 }
 
 TooglableButton* ObxdAudioProcessorEditor::addButton (int x, int y, int w, int h, ObxdAudioProcessor& filter, int parameter, String name)
 {
 	TooglableButton* button = new TooglableButton (ImageCache::getFromFile(skinFolder.getChildFile("button.png")));
-	//	button->setButtonStyle(DrawableButton::ButtonStyle::ImageAboveTextLabel);
 	addAndMakeVisible (button);
 	button->setBounds (x, y, w, h);
 	button->setButtonText (name);
-//    button->setValue(filter.getParameter(parameter),0);
-//    button->addListener(this);
     toggleAttachments.add (new TooglableButton::ToggleAttachment (filter.getPluginState(),
                                                                   filter.getEngineParameterId (parameter),
                                                                   *button));
@@ -333,127 +272,13 @@ void ObxdAudioProcessorEditor::addMenu (int x, int y, int d, const Image& image)
 void ObxdAudioProcessorEditor::rebuildComponents (ObxdAudioProcessor& ownerFilter)
 {
 	skinFolder = ownerFilter.getCurrentSkinFolder();
-	//bool useClassicSkin = skinFolder.getChildFile ("legato.png").existsAsFile();
 
 	ownerFilter.removeChangeListener (this);
 
     // deleteAllChildren();  // WATCH OUT!
 
 		setSize (1440, 450);
-/*		cutoffKnob = addKnob (893, 77, 48, ownerFilter, CUTOFF, "Cutoff", 0.4);
-		resonanceKnob = addKnob (990, 77, 48, ownerFilter, RESONANCE, "Resonance", 0);
-		filterEnvelopeAmtKnob = addKnob (1088, 77, 48, ownerFilter, ENVELOPE_AMT, "Envelope", 0);
-		multimodeKnob = addKnob (990, 167, 48, ownerFilter, MULTIMODE, "Multimode", 0.5);
 
-		volumeKnob = addKnob (56, 77, 48, ownerFilter, VOLUME, "Volume", 0.4);
-		portamentoKnob = addKnob (188, 77, 48, ownerFilter, PORTAMENTO, "Portamento", 0);
-		osc1PitchKnob = addKnob (593, 77, 48, ownerFilter, OSC1P, "Osc1Pitch", 0);
-		pulseWidthKnob = addKnob (691, 77, 48, ownerFilter, PW, "PW", 0);
-		osc2PitchKnob = addKnob (788, 77, 48, ownerFilter, OSC2P, "Osc2Pitch", 0);
-
-		osc1MixKnob = addKnob (597, 237, 48, ownerFilter, OSC1MIX, "Osc1", 1);
-		osc2MixKnob = addKnob (788, 237, 48, ownerFilter, OSC2MIX, "Osc2", 1);
-		noiseMixKnob = addKnob (691, 237, 48, ownerFilter, NOISEMIX, "Noise", 0);
-
-		xmodKnob = addKnob (656, 324, 48, ownerFilter, XMOD, "Xmod", 0);
-		osc2DetuneKnob = addKnob (800, 324, 48, ownerFilter, OSC2_DET, "Detune", 0);
-
-		envPitchModKnob = addKnob (728, 324, 48, ownerFilter, ENVPITCH, "PEnv", 0);
-		brightnessKnob = addKnob (586, 324, 48, ownerFilter, BRIGHTNESS, "Bri", 1);
-
-		attackKnob = addKnob (1182, 165, 48, ownerFilter, LATK, "Atk", 0);
-		decayKnob = addKnob (1246, 165, 48, ownerFilter, LDEC, "Dec", 0);
-		sustainKnob = addKnob (1309, 165, 48, ownerFilter, LSUS, "Sus", 1);
-		releaseKnob = addKnob (1373, 165, 48, ownerFilter, LREL, "Rel", 0);
-
-		fattackKnob = addKnob (1182, 75, 48, ownerFilter, FATK, "Atk", 0);
-		fdecayKnob = addKnob (1246, 75, 48, ownerFilter, FDEC, "Dec", 0);
-		fsustainKnob = addKnob (1309, 75, 48, ownerFilter, FSUS, "Sus", 1);
-		freleaseKnob = addKnob (1373, 75, 48, ownerFilter, FREL, "Rel", 0);
-
-		lfoFrequencyKnob = addKnob (293, 77, 48, ownerFilter, LFOFREQ, "Freq", 0);
-		lfoAmt1Knob = addKnob (390, 77, 48, ownerFilter, LFO1AMT, "Pitch", 0);
-		lfoAmt2Knob = addKnob (488, 77, 48, ownerFilter, LFO2AMT, "PWM", 0);
-
-		lfoSinButton = addButton (309, 162, 19, 35, ownerFilter, LFOSINWAVE, "Sin");
-		lfoSquareButton = addButton (309, 252,  19, 35, ownerFilter, LFOSQUAREWAVE, "SQ");
-		lfoSHButton = addButton (309, 335,  19, 35, ownerFilter, LFOSHWAVE, "S&H");
-
-		lfoOsc1Button = addButton (406, 162,  19, 35, ownerFilter, LFOOSC1, "Osc1");
-		lfoOsc2Button = addButton (406, 252,  19, 35, ownerFilter, LFOOSC2, "Osc2");
-		lfoFilterButton = addButton (406, 335,  19, 35, ownerFilter, LFOFILTER, "Filt");
-
-		lfoPwm1Button = addButton (504, 162,  19, 35, ownerFilter, LFOPW1, "Osc1");
-		lfoPwm2Button = addButton (504, 252,  19, 35, ownerFilter, LFOPW2, "Osc2");
-
-		hardSyncButton = addButton (730, 162,  19, 35, ownerFilter, OSC2HS, "Sync");
-		osc1SawButton = addButton (587, 162,  19, 35, ownerFilter, OSC1Saw, "S");
-		osc2SawButton = addButton (782, 162,  19, 35, ownerFilter, OSC2Saw, "S");
-
-		osc1PulButton = addButton (632, 162,  19, 35, ownerFilter, OSC1Pul, "P");
-		osc2PulButton = addButton (827, 162,  19, 35, ownerFilter, OSC2Pul, "P");
-
-		pitchQuantButton =  addButton (684, 162,  19, 35, ownerFilter, OSCQuantize, "Step");
-
-		filterBPBlendButton = addButton (1082, 162,  19, 35, ownerFilter, BANDPASS, "Bp");
-		fourPoleButton = addButton (1127, 162,  19, 35, ownerFilter, FOURPOLE, "24");
-		filterHQButton = addButton (932, 162,  19, 35, ownerFilter, FILTER_WARM, "HQ");
-
-		filterKeyFollowButton =  addButton (887, 162,  19, 35, ownerFilter, FLT_KF, "Key");
-		unisonButton = addButton (205, 162,  19, 35, ownerFilter, UNISON, "Uni");
-
-		tuneKnob = addKnob (30, 252, 48, ownerFilter, TUNE, "Tune", 0.5);
-		transposeKnob = addKnob (90, 252, 48, ownerFilter, OCTAVE, "Transpose", 0.5);
-
-		voiceDetuneKnob = addKnob (188, 252, 48, ownerFilter, UDET, "VoiceDet", 0);
-
-		bendLfoRateKnob = addKnob (928, 300, 36, ownerFilter, BENDLFORATE, "ModRate", 0.4);
-		veloFltEnvKnob = addKnob (1013, 300, 36, ownerFilter, VFLTENV, "VFE", 0);
-		veloAmpEnvKnob = addKnob (1111, 300, 36, ownerFilter, VAMPENV, "VAE", 0);
-
-		midiLearnButton = addButton (74, 162,  19, 35, ownerFilter, MIDILEARN, "LEA");
-		midiUnlearnButton = addButton (122, 162,  19, 35, ownerFilter, UNLEARN, "UNL");
-
-		pan1Knob = addKnob (914, 368, 36, ownerFilter, PAN1, "1", 0.5);
-		pan2Knob = addKnob (977, 368, 36, ownerFilter, PAN2, "2", 0.5);
-		pan3Knob = addKnob (1040, 368, 36, ownerFilter, PAN3, "3", 0.5);
-		pan4Knob = addKnob (1103, 368, 36, ownerFilter, PAN4, "4", 0.5);
-
-		pan5Knob = addKnob (1165, 368, 36, ownerFilter, PAN5, "5", 0.5);
-		pan6Knob = addKnob (1228, 368, 36, ownerFilter, PAN6, "6", 0.5);
-		pan7Knob = addKnob (1290, 368, 36, ownerFilter, PAN7, "7", 0.5);
-		pan8Knob = addKnob (1353, 368, 36, ownerFilter, PAN8, "8", 0.5);
-
-		bendOsc2OnlyButton = addButton (228, 335,  19, 35, ownerFilter, BENDOSC2, "Osc2");
-		bendRangeButton = addButton (183, 335,  19, 35, ownerFilter, BENDRANGE, "12");
-		asPlayedAllocButton = addButton (25, 162,  19, 35, ownerFilter, ASPLAYEDALLOCATION, "APA");
-
-		filterDetuneKnob = addKnob (1228, 300, 36, ownerFilter, FILTERDER, "Flt", 0.2);
-		portamentoDetuneKnob = addKnob (1291, 300, 36, ownerFilter, PORTADER, "Port", 0.2);
-		envelopeDetuneKnob = addKnob (1353, 300, 36, ownerFilter, ENVDER, "Env", 0.2);
-
-		voiceSwitch = addList (124, 338, 17, 24, ownerFilter, VOICE_COUNT, "VoiceCount", ImageCache::getFromMemory (BinaryData::voices_png, BinaryData::voices_pngSize));
-        
-        for (int i = 1; i <= 32; ++i)
-        {
-		    voiceSwitch->addChoice (String (i));
-        }
-
-		legatoSwitch = addList (25, 338, 65, 24, ownerFilter, LEGATOMODE, "Legato", ImageCache::getFromMemory (BinaryData::legato_png, BinaryData::legato_pngSize));
-		
-        legatoSwitch->addChoice ("Keep All");
-		legatoSwitch->addChoice ("Keep Filter Envelope");
-		legatoSwitch->addChoice ("Keep Amplitude Envelope");
-		legatoSwitch->addChoice ("Retrig");
-    
-    buttonListAttachments.add (new ButtonList::ButtonListAttachment (ownerFilter.getPluginState(),
-                                                                     ownerFilter.getEngineParameterId (VOICE_COUNT),
-                                                                     *voiceSwitch));
-    
-    buttonListAttachments.add (new ButtonList::ButtonListAttachment (ownerFilter.getPluginState(),
-                                                                     ownerFilter.getEngineParameterId (LEGATOMODE),
-                                                                     *legatoSwitch));
-*/
 	ownerFilter.addChangeListener (this);
 	repaint();
 }
@@ -521,8 +346,7 @@ void ObxdAudioProcessorEditor::createMenu (const Point<int> pos)
         
         menu.addSubMenu ("Skins", skinMenu);
     }
-    
-    //const Point<int> pos = e.getMouseDownScreenPosition();
+
     
     int result = menu.showAt (Rectangle<int> (pos.getX(), pos.getY(), 1, 1));
     
@@ -569,21 +393,6 @@ void ObxdAudioProcessorEditor::buttonClicked (Button* b)
     }
 }
 
-//void ObxdAudioProcessorEditor::comboBoxChanged (ComboBox* cb)
-//{
-//    ButtonList* bl = (ButtonList*)(cb);
-//    ObxdAudioProcessor* flt = getFilter();
-//    #define cp(T) {flt->setParameterNotifyingHost(T,bl->getValue());}
-//#define handleCParam(K,T)  if (bl == K) {cp(T)} else
-//    handleCParam(voiceSwitch,VOICE_COUNT)
-//        handleCParam(legatoSwitch,LEGATOMODE)
-//    {};
-//}
-
-//void ObxdAudioProcessorEditor::sliderValueChanged (Slider* c)
-//{
-//}
-
 //==============================================================================
 void ObxdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source)
 {
@@ -607,83 +416,6 @@ void ObxdAudioProcessorEditor::mouseUp (const MouseEvent& e)
 	if (e.mods.isRightButtonDown() || e.mods.isCommandDown())
 	{
         createMenu (e.getMouseDownScreenPosition());
-//        PopupMenu menu;
-//        PopupMenu skinMenu;
-//        PopupMenu bankMenu;
-//        PopupMenu progMenu;
-//
-//        Array<File> skins;
-//        const Array<File>& banks = processor.getBankFiles();
-//
-//        int skinStart = 0;
-//        {
-//            DirectoryIterator it(processor.getSkinFolder(), false, "*", File::findDirectories);
-//            while (it.next())
-//            {
-//                skins.addUsingDefaultSort(it.getFile());
-//            }
-//
-//            for (int i = 0; i < skins.size(); ++i)
-//            {
-//                const File skin = skins.getUnchecked(i);
-//                skinMenu.addItem(i + skinStart + 1, skin.getFileName(), true, skin.getFileName() == skinFolder.getFileName());
-//            }
-//
-//            menu.addSubMenu("Skins", skinMenu);
-//        }
-//
-//        int bankStart = 1000;
-//        {
-//            const String currentBank = processor.getCurrentBankFile().getFileName();
-//
-//            for (int i = 0; i < banks.size(); ++i)
-//            {
-//                const File bank = banks.getUnchecked(i);
-//                bankMenu.addItem(i + bankStart + 1, bank.getFileNameWithoutExtension(), true, bank.getFileName() == currentBank);
-//            }
-//
-//            menu.addSubMenu("Banks", bankMenu);
-//        }
-//
-//        int progStart = 2000;
-//        {
-//            for (int i = 0; i < processor.getNumPrograms(); ++i)
-//            {
-//                progMenu.addItem(i + progStart + 1, processor.getProgramName(i), true, i == processor.getCurrentProgram());
-//            }
-//
-//            menu.addSubMenu("Programs", progMenu);
-//        }
-//
-//        const Point<int> pos = e.getMouseDownScreenPosition();
-//
-//        int result = menu.showAt(Rectangle<int>(pos.getX(), pos.getY(), 1, 1));
-//        if (result >= (skinStart + 1) && result <= (skinStart + skins.size()))
-//        {
-//            result -= 1;
-//            result -= skinStart;
-//
-//            const File newSkinFolder = skins.getUnchecked(result);
-//            processor.setCurrentSkinFolder(newSkinFolder.getFileName());
-//
-//            //rebuildComponents (processor);
-//            clean();
-//            loadSkin(processor);
-//        }
-//        else if (result >= (bankStart + 1) && result <= (bankStart + banks.size()))
-//        {
-//            result -= 1;
-//            result -= bankStart;
-//
-//            const File bankFile = banks.getUnchecked(result);
-//            processor.loadFromFXBFile (bankFile);
-//        }
-//        else if (result >= (progStart + 1) && result <= (progStart + processor.getNumPrograms()))
-//        {
-//            result -= 1;
-//            result -= progStart;
-//            processor.setCurrentProgram (result);
-//        }
 	}
 }
 
