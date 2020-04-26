@@ -289,7 +289,6 @@ void ObxdAudioProcessorEditor::createMenu (const Point<int> pos)
     PopupMenu progMenu;
     PopupMenu bankMenu;
     PopupMenu skinMenu;
-
     
     Array<File> skins;
     const Array<File>& banks = processor.getBankFiles();
@@ -346,7 +345,8 @@ void ObxdAudioProcessorEditor::createMenu (const Point<int> pos)
         
         menu.addSubMenu ("Skins", skinMenu);
     }
-
+    
+    menu.addItem(1, String("Version: ") + ProjectInfo::versionString);
     
     int result = menu.showAt (Rectangle<int> (pos.getX(), pos.getY(), 1, 1));
     
